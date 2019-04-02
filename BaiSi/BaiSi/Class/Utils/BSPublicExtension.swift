@@ -229,6 +229,14 @@ extension UIView {
         self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: width, height: self.frame.size.height)
     }
     
+    func height() -> CGFloat {
+        return self.frame.size.height
+    }
+    func width() -> CGFloat {
+        return self.frame.size.width
+    }
+    
+    
 }
 
 extension CGFloat {

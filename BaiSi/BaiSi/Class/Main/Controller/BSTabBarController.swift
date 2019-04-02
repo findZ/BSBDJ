@@ -10,11 +10,16 @@ import UIKit
 
 class BSTabBarController: UITabBarController {
 
+    var bsTabBar : BSMainTabBar?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setValue(BSMainTabBar(), forKey: "tabBar")
+        let tabBar = BSMainTabBar()
+        self.bsTabBar = tabBar
+        self.setValue(tabBar, forKey: "tabBar")
         self.addChildController()
+//        self.delegate = self
         // Do any additional setup after loading the view.
     }
     
@@ -41,9 +46,33 @@ extension BSTabBarController {
     }
     
     func setupSubViewController(childVc: UIViewController, title: String, imageName: String, selectedImageName: String){
-        childVc.title = title
+        childVc.tabBarItem.title = title
+    childVc.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.withRGB(255, 47, 86)], for: UIControl.State.selected)//必须在这里设置，如果在childVc中设置tabBarItem属性会造成tabBarItem顺序错乱
         childVc.tabBarItem.image = UIImage(named: imageName)?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         childVc.tabBarItem.selectedImage = UIImage.init(named: selectedImageName)?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         self.addChild(childVc)
     }
+}
+
+extension BSTabBarController  {
+    
+    override func tabBar(_ tabBar: UITabBar, willBeginCustomizing items: [UITabBarItem]) {
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        
+        guard let index = tabBar.items?.firstIndex(of: item) else { return }
+        let subView : UIView = self.bsTabBar?.tabBarButtonArray[index] as! UIView
+       
+        UIView.animate(withDuration: 0.25){
+            subView.transform = CGAffineTransform.init(scaleX: 0.7, y: 0.7)//缩放
+            //            subView.transform = CGAffineTransform.init(rotationAngle:CGFloat(Double.pi))//旋转
+
+        }
+        UIView.animate(withDuration: 0.5){
+            subView.transform = CGAffineTransform.identity
+        }
+
+    }
+    
 }

@@ -13,7 +13,6 @@ class BSBaseController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.setupTabBarItem()
         // Do any additional setup after loading the view.
     }
     
@@ -31,8 +30,5 @@ class BSBaseController: UIViewController {
 }
 
 extension BSBaseController {
-    func setupTabBarItem()  {
-        self.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.gray], for: UIControl.State.normal)
-        self.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.withRGB(255, 47, 86)], for: UIControl.State.selected)
-    }
+ 
 }
