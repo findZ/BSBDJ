@@ -8,13 +8,17 @@
 
 import UIKit
 
+protocol BSMainTabBarDelegate : NSObjectProtocol {
+    func publishButtonClick(button: UIButton)
+}
+
 class BSMainTabBar: UITabBar {
-    
-    lazy var publishButton: UIButton = {
+    weak var customDelegate : BSMainTabBarDelegate?
+    lazy var publishButton: UIButton = { [unowned self] in
         let btn = UIButton.init(frame: CGRect.init(x: 0.0, y: 0.0, width: 40, height: 40))
         btn.setImage(UIImage.init(named: "publish_icon_select"), for: UIControl.State.highlighted)
         btn.setImage(UIImage.init(named: "publish_icon"), for: UIControl.State.normal)
-
+        btn.addTarget(self, action: #selector(buttonClick), for: UIControl.Event.touchUpInside)
         return btn
     }()
     var tabBarButtonArray : Array<Any> = Array()
@@ -38,7 +42,7 @@ class BSMainTabBar: UITabBar {
     
     func setupTabBarItems() {
         let width = self.width()
-        let height = self.height()
+        let height : CGFloat = 49.0
         self.publishButton.center = CGPoint.init(x: width/2, y: height/2)
         
         let tabBarButtonW : CGFloat = width/5
@@ -57,6 +61,14 @@ class BSMainTabBar: UITabBar {
                 subView.frame = CGRect.init(x: tabBarButtonX, y: tabBarButtonY, width: tabBarButtonW, height: tabBarButtonH)
                 index+=1
             }
+        }
+    }
+}
+
+extension BSMainTabBar {
+    @objc func buttonClick(button: UIButton){
+        if self.customDelegate != nil {
+            self.customDelegate?.publishButtonClick(button: button)
         }
     }
 }

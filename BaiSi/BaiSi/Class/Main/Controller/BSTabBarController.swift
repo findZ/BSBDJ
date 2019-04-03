@@ -16,6 +16,7 @@ class BSTabBarController: UITabBarController {
         super.viewDidLoad()
         
         let tabBar = BSMainTabBar()
+        tabBar.customDelegate = self
         self.bsTabBar = tabBar
         self.setValue(tabBar, forKey: "tabBar")
         self.addChildController()
@@ -54,7 +55,10 @@ extension BSTabBarController {
     }
 }
 
-extension BSTabBarController  {
+extension BSTabBarController : BSMainTabBarDelegate {
+    func publishButtonClick(button: UIButton) {
+        self.present(BSPublishController(), animated: true, completion: nil)
+    }
     
     override func tabBar(_ tabBar: UITabBar, willBeginCustomizing items: [UITabBarItem]) {
     }

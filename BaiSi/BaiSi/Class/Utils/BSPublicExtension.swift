@@ -16,6 +16,8 @@ let Screen_height : CGFloat = UIScreen.main.bounds.height
 let Screen_width : CGFloat = UIScreen.main.bounds.width
 let Screen_bounds = UIScreen.main.bounds
 
+//主题色
+let ThemeColor = UIColor.withRGB(255, 47, 86)
 
 
 //iPhone X
@@ -98,6 +100,10 @@ extension UIColor {
      */
     static func withRGB(_ red:CGFloat, _ green:CGFloat, _ blue:CGFloat) -> UIColor {
         return UIColor.withRGBA(red, green, blue, 1)
+    }
+    
+    static func randomColor() -> UIColor {
+        return UIColor.withRGBA(CGFloat(arc4random()%255), CGFloat(arc4random()%255), CGFloat(arc4random()%255), 1)
     }
     
     /**

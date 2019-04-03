@@ -1,18 +1,18 @@
 //
-//  BSBaseController.swift
+//  BSHomeSubController.swift
 //  BaiSi
 //
-//  Created by wzh on 2019/4/2.
+//  Created by wzh on 2019/4/3.
 //  Copyright © 2019 wzh. All rights reserved.
 //
 
 import UIKit
 
-class BSBaseController: UIViewController {
+class BSHomeSubController: BSBaseController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.randomColor()
+        self.view.backgroundColor = UIColor.groupTableViewBackground
         // Do any additional setup after loading the view.
     }
     
@@ -27,8 +27,4 @@ class BSBaseController: UIViewController {
     }
     */
 
-}
-
-extension BSBaseController {
- 
 }
