@@ -11,6 +11,8 @@
 		290365DF22548BD30087AE35 /* BSHomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290365DE22548BD30087AE35 /* BSHomeContentView.swift */; };
 		290365E32254A4440087AE35 /* BSNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290365E22254A4440087AE35 /* BSNetworkTool.swift */; };
 		290365E62254BC650087AE35 /* BSHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290365E52254BC650087AE35 /* BSHomeViewModel.swift */; };
+		292F9C59225C9C8F00FAA800 /* BSHomeSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */; };
+		292F9C5C225CA3A900FAA800 /* BSHomeSubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C5B225CA3A900FAA800 /* BSHomeSubCell.swift */; };
 		29F9A0B62253373300879E51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F9A0B52253373300879E51 /* AppDelegate.swift */; };
 		29F9A0BD2253373400879E51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29F9A0BC2253373400879E51 /* Assets.xcassets */; };
 		29F9A0C02253373400879E51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29F9A0BE2253373400879E51 /* LaunchScreen.storyboard */; };
@@ -32,6 +34,8 @@
 		290365DE22548BD30087AE35 /* BSHomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeContentView.swift; sourceTree = "<group>"; };
 		290365E22254A4440087AE35 /* BSNetworkTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSNetworkTool.swift; sourceTree = "<group>"; };
 		290365E52254BC650087AE35 /* BSHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeViewModel.swift; sourceTree = "<group>"; };
+		292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubViewModel.swift; sourceTree = "<group>"; };
+		292F9C5B225CA3A900FAA800 /* BSHomeSubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubCell.swift; sourceTree = "<group>"; };
 		29F9A0B22253373300879E51 /* BaiSi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiSi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29F9A0B52253373300879E51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29F9A0BC2253373400879E51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,8 +80,17 @@
 			isa = PBXGroup;
 			children = (
 				290365E52254BC650087AE35 /* BSHomeViewModel.swift */,
+				292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		292F9C5A225CA30F00FAA800 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				292F9C5B225CA3A900FAA800 /* BSHomeSubCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		29F9A0A92253373300879E51 = {
@@ -281,6 +294,7 @@
 		29F9A0DD225340B400879E51 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				292F9C5A225CA30F00FAA800 /* Cell */,
 				29F9A0F4225446AC00879E51 /* BSHomeTitleView.swift */,
 				290365DE22548BD30087AE35 /* BSHomeContentView.swift */,
 			);
@@ -464,6 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292F9C5C225CA3A900FAA800 /* BSHomeSubCell.swift in Sources */,
 				290365DD22548B9C0087AE35 /* BSHomeSubController.swift in Sources */,
 				29F9A0D522533BE700879E51 /* BSTabBarController.swift in Sources */,
 				29F9A0E52253412000879E51 /* BSAttentionController.swift in Sources */,
@@ -471,6 +486,7 @@
 				29F9A0ED2253564900879E51 /* BSPublicExtension.swift in Sources */,
 				290365E32254A4440087AE35 /* BSNetworkTool.swift in Sources */,
 				29F9A0E92253416300879E51 /* BSHomeController.swift in Sources */,
+				292F9C59225C9C8F00FAA800 /* BSHomeSubViewModel.swift in Sources */,
 				29F9A0F12253578D00879E51 /* BSPublishController.swift in Sources */,
 				290365DF22548BD30087AE35 /* BSHomeContentView.swift in Sources */,
 				29F9A0B62253373300879E51 /* AppDelegate.swift in Sources */,

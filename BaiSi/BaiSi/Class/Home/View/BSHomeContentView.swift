@@ -10,7 +10,8 @@ import UIKit
 
 
 protocol BSHomeContentViewDelegate : NSObjectProtocol {
-    func contentViewdidScroll(index: Int)
+    func contentViewDidScroll(index: Int)
+    func contentViewDidEndScroll(index: Int)
 }
 
 class BSHomeContentView: UIView {
@@ -75,10 +76,18 @@ extension BSHomeContentView : UIScrollViewDelegate {
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if self.isDragging == true {
-            let index = roundf(Float(scrollView.contentOffset.x/scrollView.bounds.size.width))
             if self.delegate != nil  {
-                self.delegate?.contentViewdidScroll(index: Int(index))
+                let index = roundf(Float(scrollView.contentOffset.x/scrollView.bounds.size.width))
+                self.delegate?.contentViewDidScroll(index: Int(index))
             }            
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.isDragging = false
+        if self.delegate != nil {
+            let index = roundf(Float(scrollView.contentOffset.x/scrollView.bounds.size.width))
+            self.delegate?.contentViewDidEndScroll(index: Int(index))
         }
     }
 }

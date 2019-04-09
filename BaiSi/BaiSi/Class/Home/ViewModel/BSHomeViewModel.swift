@@ -10,15 +10,18 @@ import UIKit
 
 class BSHomeViewModel: NSObject {
 
-    func loadNewData(){
-        let parameter = ["a":"list","c":"data","type": "1"]
-        
-        let url = "http://api.budejie.com/api/api_open.php"
-        
-        BSNetworkTool.getWithUrl(urlString: url, parameter:parameter, succee: { (result) in
-            DLog(message: result)
-        }) { (error) in
-            DLog(message: error)
+    lazy var typeArray: Array<Dictionary<String, String>> = {
+        let array = [["title":"推荐","type":"1"],["title":"视频","type":"41"],["title":"图片","type":"10"],["title":"笑话","type":"29"],["title":"声音","type":"31"]]
+        return array
+    }()
+    
+    lazy var titleArray: Array<String> = { [unowned self] in
+        var arr = Array<String>()
+        for dict : Dictionary<String, String> in self.typeArray{
+            guard let title = dict["title"] else{ continue }
+            arr.append(title)
         }
-    }
+        return arr
+    }()
+    
 }

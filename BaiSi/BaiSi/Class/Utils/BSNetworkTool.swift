@@ -11,7 +11,7 @@ import Alamofire
 
 
 
-typealias succeeClosure = (_ result:Any)->Void
+typealias succeeClosure = (_ result:Dictionary<String, Any>)->Void
 typealias failureClosure = (_ error: Error)->Void
 
 class BSNetworkTool: NSObject {
@@ -24,7 +24,7 @@ class BSNetworkTool: NSObject {
                 guard dict != nil else {
                     return
                 }
-                succee(dict!)
+                succee(dict! as! Dictionary<String, Any>)
             }else{
                 failure(response.error!)
             }

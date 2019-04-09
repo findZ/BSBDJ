@@ -9,7 +9,10 @@
 import UIKit
 
 class BSHomeController: BSBaseController {
-
+    lazy var viwModel: BSHomeViewModel = {
+        let VM = BSHomeViewModel()
+        return VM
+    }()
     lazy var titleView: BSHomeTitleView = { [unowned self] in
         let tv = BSHomeTitleView.init(frame: CGRect.init(x: 0, y: STATUS_BAR_HEIGHT, width: Screen_width, height: 44))
         tv.delegate = self
@@ -31,6 +34,8 @@ class BSHomeController: BSBaseController {
         self.setupSubView()
         self.view.backgroundColor = UIColor.white
         // Do any additional setup after loading the view.
+       self.loadData(index: 0)
+
     }
 
 }
@@ -38,7 +43,7 @@ class BSHomeController: BSBaseController {
 extension BSHomeController {
     
     func setupSubView(){
-        let titleaArray = ["推荐","视频","图片","笑话","声音"]
+        let titleaArray = self.viewModel.titleArray
         
         self.titleView.titles = titleaArray
         self.view.addSubview(self.titleView)
@@ -52,19 +57,35 @@ extension BSHomeController {
             self.addChild(subVc)
         }
         self.contentView.contentArray = contentArray
+    }
+    
+    func loadData(index : Int) {
+        let subVc = self.children[index] as! BSHomeSubController
         
+        let dict = self.viewModel.typeArray[index]
+        guard let type = dict["type"] else {
+            return
+        }
+        subVc.viewModel.loadData(type: type)
     }
 }
 
 extension BSHomeController : BSHomeTitleViewDelegate , BSHomeContentViewDelegate{
     func titleDidSelect(label: UILabel, index: Int) {
-        DLog(message: index)
         self.contentView.scrollToIndexPage(index: index)
-        self.viewModel.loadNewData()
+        self.loadData(index: index)
+    }
+    //    MARK: - BSHomeContentViewDelegate
+    func contentViewDidScroll(index: Int) {
+        self.titleView.selectIndex = index
     }
     
-    func contentViewdidScroll(index: Int) {
-        self.titleView.selectIndex = index
+    func contentViewDidEndScroll(index: Int) {
+        let dict = self.viewModel.typeArray[index]
+        guard let type = dict["type"] else {
+            return
+        }
+        DLog(message: type)
     }
 
 }

@@ -8,23 +8,58 @@
 
 import UIKit
 
+
 class BSHomeSubController: BSBaseController {
 
+    lazy var viewModel: BSHomeSubViewModel = { [unowned self] in
+        let VM = BSHomeSubViewModel()
+        VM.rloadData = {(dataArray: Array<Any>) in
+            self.dataArray = dataArray
+            self.tableView.reloadData()
+        }
+        return VM
+    }()
+    
+    private var dataArray : Array<Any>?
+    
+    private lazy var tableView: UITableView = { [unowned self] in
+        let tabV = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: Screen_width, height: Screen_height - TAB_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT))
+        tabV.dataSource = self
+        tabV.delegate = self
+        tabV.tableFooterView = UIView.init()
+        tabV.rowHeight = 80.0
+        return tabV
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.groupTableViewBackground
         // Do any additional setup after loading the view.
+        self.setupSubView()
+       
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+   private func setupSubView() {
+        self.view.addSubview(self.tableView)
     }
-    */
 
+}
+
+extension BSHomeSubController : UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.dataArray?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = BSHomeSubCell.cellWithTableView(tableView: tableView)
+        let dict = self.dataArray?[indexPath.row] as? Dictionary<String, Any>
+        
+        cell.textLabel?.text = dict?["name"] as? String
+        cell.detailTextLabel?.text = dict?["text"] as? String
+        return cell
+    }
+    
+    
 }
