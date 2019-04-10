@@ -13,6 +13,7 @@
 		290365E62254BC650087AE35 /* BSHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290365E52254BC650087AE35 /* BSHomeViewModel.swift */; };
 		292F9C59225C9C8F00FAA800 /* BSHomeSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */; };
 		292F9C5C225CA3A900FAA800 /* BSHomeSubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C5B225CA3A900FAA800 /* BSHomeSubCell.swift */; };
+		292F9C5E225D9BFF00FAA800 /* BSHomeSubModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C5D225D9BFF00FAA800 /* BSHomeSubModel.swift */; };
 		29F9A0B62253373300879E51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F9A0B52253373300879E51 /* AppDelegate.swift */; };
 		29F9A0BD2253373400879E51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29F9A0BC2253373400879E51 /* Assets.xcassets */; };
 		29F9A0C02253373400879E51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29F9A0BE2253373400879E51 /* LaunchScreen.storyboard */; };
@@ -36,6 +37,7 @@
 		290365E52254BC650087AE35 /* BSHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeViewModel.swift; sourceTree = "<group>"; };
 		292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubViewModel.swift; sourceTree = "<group>"; };
 		292F9C5B225CA3A900FAA800 /* BSHomeSubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubCell.swift; sourceTree = "<group>"; };
+		292F9C5D225D9BFF00FAA800 /* BSHomeSubModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubModel.swift; sourceTree = "<group>"; };
 		29F9A0B22253373300879E51 /* BaiSi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiSi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29F9A0B52253373300879E51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29F9A0BC2253373400879E51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 		29F9A0E1225340CC00879E51 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				292F9C5D225D9BFF00FAA800 /* BSHomeSubModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -437,20 +440,22 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BaiSi/Pods-BaiSi-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BaiSi/Pods-BaiSi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaiSi/Pods-BaiSi-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaiSi/Pods-BaiSi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EC6CD78247365C41F47CC10F /* [CP] Check Pods Manifest.lock */ = {
@@ -480,6 +485,7 @@
 			files = (
 				292F9C5C225CA3A900FAA800 /* BSHomeSubCell.swift in Sources */,
 				290365DD22548B9C0087AE35 /* BSHomeSubController.swift in Sources */,
+				292F9C5E225D9BFF00FAA800 /* BSHomeSubModel.swift in Sources */,
 				29F9A0D522533BE700879E51 /* BSTabBarController.swift in Sources */,
 				29F9A0E52253412000879E51 /* BSAttentionController.swift in Sources */,
 				29F9A0E32253410300879E51 /* BSMineController.swift in Sources */,

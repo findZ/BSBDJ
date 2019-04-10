@@ -19,9 +19,16 @@ class BSHomeSubViewModel: NSObject {
         
         BSNetworkTool.getWithUrl(urlString: url, parameter:parameter, succee: { (result : Dictionary) in
             if self.rloadData != nil {
-                self.rloadData!(result["list"] as! Array<Any>)
+                var array = Array<Any>()
+                let list  = result["list"] as! Array<Dictionary<String, Any>>
+                
+                for dict in list {
+                    guard let model = BSHomeSubModel.deserialize(from: dict) else{ continue}
+                    array.append(model)
+                }
+                self.rloadData!(array)
             }
-//            DLog(message: result)
+            DLog(message: result)
         }) { (error) in
             DLog(message: error)
         }

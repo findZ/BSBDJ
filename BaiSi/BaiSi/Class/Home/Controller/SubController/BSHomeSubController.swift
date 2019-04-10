@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Kingfisher
 
 class BSHomeSubController: BSBaseController {
 
@@ -54,10 +54,12 @@ extension BSHomeSubController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = BSHomeSubCell.cellWithTableView(tableView: tableView)
-        let dict = self.dataArray?[indexPath.row] as? Dictionary<String, Any>
-        
-        cell.textLabel?.text = dict?["name"] as? String
-        cell.detailTextLabel?.text = dict?["text"] as? String
+        let model = self.dataArray?[indexPath.row] as? BSHomeSubModel
+        let imageUrl = URL.init(string: model!.profile_image!)
+
+        cell.imageView?.kf.setImage(with: imageUrl)
+        cell.textLabel?.text = model?.name
+        cell.detailTextLabel?.text = model?.text
         return cell
     }
     

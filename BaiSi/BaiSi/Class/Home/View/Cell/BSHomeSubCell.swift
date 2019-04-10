@@ -27,12 +27,17 @@ class BSHomeSubCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.detailTextLabel?.numberOfLines = 3
+        self.imageView?.contentMode = UIView.ContentMode.scaleToFill
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.imageView?.frame = CGRect.init(x: 10, y: 10, width: 60, height: 60)
+
+    }
     class func cellWithTableView(tableView : UITableView) -> BSHomeSubCell {
         let identifier = "BSHomeSubCell"
         var cell = tableView.dequeueReusableCell(withIdentifier: identifier)

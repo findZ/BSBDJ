@@ -9,5 +9,6 @@ target 'BaiSi' do
     pod ‘Alamofire’
     pod ‘Kingfisher’
     pod ‘MBProgressHUD’
+    pod ‘HandyJSON’,'5.0.0-beta'
 end
 
