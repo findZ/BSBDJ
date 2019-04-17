@@ -8,12 +8,17 @@
 
 import UIKit
 import Kingfisher
+import PullToRefreshKit
 
 class BSHomeSubController: BSBaseController {
 
+    var type : String?
+    
+    
     lazy var viewModel: BSHomeSubViewModel = { [unowned self] in
         let VM = BSHomeSubViewModel()
         VM.rloadData = {(dataArray: Array<Any>) in
+            self.tableView.switchRefreshHeader(to: .normal(.success, 0.5))
             self.dataArray = dataArray as? Array<BSHomeSubFrameModel>
             self.tableView.reloadData()
         }
@@ -29,6 +34,11 @@ class BSHomeSubController: BSBaseController {
         tabV.separatorStyle = UITableViewCell.SeparatorStyle.none
         tabV.backgroundColor = UIColor.groupTableViewBackground
         tabV.tableFooterView = UIView.init()
+        tabV.configRefreshHeader(container: self, action: {
+            guard (self.type != nil) else { return}
+            self.viewModel.loadData(type: self.type!)
+        })
+        
         return tabV
     }()
     

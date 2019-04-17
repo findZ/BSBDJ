@@ -66,6 +66,7 @@ extension BSHomeController {
         guard let type = dict["type"] else {
             return
         }
+        subVc.type = type
         subVc.viewModel.loadData(type: type)
     }
 }
