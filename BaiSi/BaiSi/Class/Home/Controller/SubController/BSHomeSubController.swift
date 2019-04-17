@@ -14,20 +14,21 @@ class BSHomeSubController: BSBaseController {
     lazy var viewModel: BSHomeSubViewModel = { [unowned self] in
         let VM = BSHomeSubViewModel()
         VM.rloadData = {(dataArray: Array<Any>) in
-            self.dataArray = dataArray
+            self.dataArray = dataArray as? Array<BSHomeSubFrameModel>
             self.tableView.reloadData()
         }
         return VM
     }()
     
-    private var dataArray : Array<Any>?
+    private var dataArray : Array<BSHomeSubFrameModel>?
     
     private lazy var tableView: UITableView = { [unowned self] in
         let tabV = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: Screen_width, height: Screen_height - TAB_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT))
         tabV.dataSource = self
         tabV.delegate = self
+        tabV.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tabV.backgroundColor = UIColor.groupTableViewBackground
         tabV.tableFooterView = UIView.init()
-        tabV.rowHeight = 80.0
         return tabV
     }()
     
@@ -54,14 +55,21 @@ extension BSHomeSubController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = BSHomeSubCell.cellWithTableView(tableView: tableView)
-        let model = self.dataArray?[indexPath.row] as? BSHomeSubModel
-        let imageUrl = URL.init(string: model!.profile_image!)
-
-        cell.imageView?.kf.setImage(with: imageUrl)
-        cell.textLabel?.text = model?.name
-        cell.detailTextLabel?.text = model?.text
+        cell.index = indexPath.row
+        cell.delegate = self
+        let frameModel = self.dataArray?[indexPath.row]
+        cell.frameModel = frameModel
         return cell
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let frameModel = self.dataArray?[indexPath.row]
+        return frameModel!.cellHeight
+    }
+}
+extension BSHomeSubController : BSHomeSubCellDelegate{
     
-    
+    func imageViewDidClick(imageView: UIImageView, index: Int) {        
+        ZHImageViewer.shared.showImageViewer(imageView: imageView, dataArray: self.dataArray!, currentIndexPath: index)
+
+    }
 }

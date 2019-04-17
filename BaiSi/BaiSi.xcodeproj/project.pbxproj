@@ -11,6 +11,13 @@
 		290365DF22548BD30087AE35 /* BSHomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290365DE22548BD30087AE35 /* BSHomeContentView.swift */; };
 		290365E32254A4440087AE35 /* BSNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290365E22254A4440087AE35 /* BSNetworkTool.swift */; };
 		290365E62254BC650087AE35 /* BSHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290365E52254BC650087AE35 /* BSHomeViewModel.swift */; };
+		290824E9225F6B82004EA940 /* BSHomeSubFrameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824E8225F6B82004EA940 /* BSHomeSubFrameModel.swift */; };
+		290824F3225F8530004EA940 /* ZHImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824EC225F8530004EA940 /* ZHImageViewer.swift */; };
+		290824F4225F8530004EA940 /* ZHContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824ED225F8530004EA940 /* ZHContentView.swift */; };
+		290824F5225F8530004EA940 /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824EF225F8530004EA940 /* UIScrollView.swift */; };
+		290824F6225F8530004EA940 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824F0225F8530004EA940 /* UIImage.swift */; };
+		290824F7225F8530004EA940 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824F1225F8530004EA940 /* UIImageView.swift */; };
+		290824F8225F8530004EA940 /* ZHImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824F2225F8530004EA940 /* ZHImageCell.swift */; };
 		292F9C59225C9C8F00FAA800 /* BSHomeSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */; };
 		292F9C5C225CA3A900FAA800 /* BSHomeSubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C5B225CA3A900FAA800 /* BSHomeSubCell.swift */; };
 		292F9C5E225D9BFF00FAA800 /* BSHomeSubModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292F9C5D225D9BFF00FAA800 /* BSHomeSubModel.swift */; };
@@ -35,6 +42,13 @@
 		290365DE22548BD30087AE35 /* BSHomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeContentView.swift; sourceTree = "<group>"; };
 		290365E22254A4440087AE35 /* BSNetworkTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSNetworkTool.swift; sourceTree = "<group>"; };
 		290365E52254BC650087AE35 /* BSHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeViewModel.swift; sourceTree = "<group>"; };
+		290824E8225F6B82004EA940 /* BSHomeSubFrameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubFrameModel.swift; sourceTree = "<group>"; };
+		290824EC225F8530004EA940 /* ZHImageViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHImageViewer.swift; sourceTree = "<group>"; };
+		290824ED225F8530004EA940 /* ZHContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHContentView.swift; sourceTree = "<group>"; };
+		290824EF225F8530004EA940 /* UIScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
+		290824F0225F8530004EA940 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		290824F1225F8530004EA940 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		290824F2225F8530004EA940 /* ZHImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHImageCell.swift; sourceTree = "<group>"; };
 		292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubViewModel.swift; sourceTree = "<group>"; };
 		292F9C5B225CA3A900FAA800 /* BSHomeSubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubCell.swift; sourceTree = "<group>"; };
 		292F9C5D225D9BFF00FAA800 /* BSHomeSubModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeSubModel.swift; sourceTree = "<group>"; };
@@ -85,6 +99,35 @@
 				292F9C58225C9C8F00FAA800 /* BSHomeSubViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		290824EA225F850D004EA940 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				290824EB225F8530004EA940 /* ZHImageViewer */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		290824EB225F8530004EA940 /* ZHImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				290824EC225F8530004EA940 /* ZHImageViewer.swift */,
+				290824ED225F8530004EA940 /* ZHContentView.swift */,
+				290824EE225F8530004EA940 /* Extensions */,
+				290824F2225F8530004EA940 /* ZHImageCell.swift */,
+			);
+			path = ZHImageViewer;
+			sourceTree = "<group>";
+		};
+		290824EE225F8530004EA940 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				290824EF225F8530004EA940 /* UIScrollView.swift */,
+				290824F0225F8530004EA940 /* UIImage.swift */,
+				290824F1225F8530004EA940 /* UIImageView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		292F9C5A225CA30F00FAA800 /* Cell */ = {
@@ -153,6 +196,7 @@
 		29F9A0CA22533AA200879E51 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				290824EA225F850D004EA940 /* Lib */,
 				29F9A0EC2253564900879E51 /* BSPublicExtension.swift */,
 				290365E22254A4440087AE35 /* BSNetworkTool.swift */,
 			);
@@ -328,6 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				292F9C5D225D9BFF00FAA800 /* BSHomeSubModel.swift */,
+				290824E8225F6B82004EA940 /* BSHomeSubFrameModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -484,20 +529,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				292F9C5C225CA3A900FAA800 /* BSHomeSubCell.swift in Sources */,
+				290824F3225F8530004EA940 /* ZHImageViewer.swift in Sources */,
 				290365DD22548B9C0087AE35 /* BSHomeSubController.swift in Sources */,
 				292F9C5E225D9BFF00FAA800 /* BSHomeSubModel.swift in Sources */,
 				29F9A0D522533BE700879E51 /* BSTabBarController.swift in Sources */,
 				29F9A0E52253412000879E51 /* BSAttentionController.swift in Sources */,
+				290824F4225F8530004EA940 /* ZHContentView.swift in Sources */,
 				29F9A0E32253410300879E51 /* BSMineController.swift in Sources */,
 				29F9A0ED2253564900879E51 /* BSPublicExtension.swift in Sources */,
+				290824F5225F8530004EA940 /* UIScrollView.swift in Sources */,
 				290365E32254A4440087AE35 /* BSNetworkTool.swift in Sources */,
 				29F9A0E92253416300879E51 /* BSHomeController.swift in Sources */,
 				292F9C59225C9C8F00FAA800 /* BSHomeSubViewModel.swift in Sources */,
 				29F9A0F12253578D00879E51 /* BSPublishController.swift in Sources */,
+				290824F8225F8530004EA940 /* ZHImageCell.swift in Sources */,
 				290365DF22548BD30087AE35 /* BSHomeContentView.swift in Sources */,
 				29F9A0B62253373300879E51 /* AppDelegate.swift in Sources */,
+				290824F7225F8530004EA940 /* UIImageView.swift in Sources */,
 				29F9A0F32253580800879E51 /* BSMainTabBar.swift in Sources */,
 				29F9A0F5225446AC00879E51 /* BSHomeTitleView.swift in Sources */,
+				290824E9225F6B82004EA940 /* BSHomeSubFrameModel.swift in Sources */,
+				290824F6225F8530004EA940 /* UIImage.swift in Sources */,
 				290365E62254BC650087AE35 /* BSHomeViewModel.swift in Sources */,
 				29F9A0EB225352DF00879E51 /* BSBaseController.swift in Sources */,
 				29F9A0E72253414000879E51 /* BSCommunityController.swift in Sources */,

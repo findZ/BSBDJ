@@ -24,11 +24,15 @@ class BSHomeSubViewModel: NSObject {
                 
                 for dict in list {
                     guard let model = BSHomeSubModel.deserialize(from: dict) else{ continue}
-                    array.append(model)
+                    model.thumbnailImageUri()
+                    let frameModel = BSHomeSubFrameModel()
+                    frameModel.model = model
+                    
+                    array.append(frameModel)
                 }
                 self.rloadData!(array)
             }
-            DLog(message: result)
+//            DLog(message: result)
         }) { (error) in
             DLog(message: error)
         }

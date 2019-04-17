@@ -10,5 +10,6 @@ target 'BaiSi' do
     pod ‘Kingfisher’
     pod ‘MBProgressHUD’
     pod ‘HandyJSON’,'5.0.0-beta'
+    pod ‘PullToRefreshKit’
 end
 
