@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
+import SDWebImage
 
 public protocol ZHContentViewDelegate : NSObjectProtocol {
     
@@ -49,7 +49,7 @@ class ZHContentView: UIView {
         return collectionView
     }()
     
-    var dataArray : Array<BSHomeSubFrameModel>? {
+    var dataArray : Array<URL>? {
         
         didSet{
             self.mainView.reloadData()
@@ -68,8 +68,6 @@ class ZHContentView: UIView {
     
     deinit {
 //        print("deinit \(self)")
-        
-        KingfisherManager.shared.cache.clearMemoryCache()
 
     }
 }
@@ -95,16 +93,9 @@ extension ZHContentView : UICollectionViewDataSource, UICollectionViewDelegate {
         if cell.isKind(of: ZHImageCell.classForCoder()) {
             let imageCell = cell as! ZHImageCell
             imageCell.delegate = self
-            let frameModel = self.dataArray?[indexPath.row]
-            let imageUrl = URL.init(string: ((frameModel?.model!.image0)!))
+            let imageUrl = self.dataArray?[indexPath.row] as URL?
             
-            imageCell.imageView.kf.setImage(with: imageUrl, placeholder: UIImage.init(named: "AppIcon"), options: [
-//                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-                ], progressBlock: { (w, h) in
-                
-            }) { (image, error, CacheType, url) in
+            imageCell.imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.delayPlaceholder) { (image, error, CacheType, url) in
                 imageCell.image = image
             }
         }

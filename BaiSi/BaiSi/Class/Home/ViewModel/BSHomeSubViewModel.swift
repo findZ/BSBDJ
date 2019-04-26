@@ -10,7 +10,8 @@ import UIKit
 
 class BSHomeSubViewModel: NSObject {
 
-    var rloadData : ((Array<Any>) -> Void)?
+    var rloadData : ((Array<BSHomeSubFrameModel>) -> Void)?
+    var moreData : ((Array<BSHomeSubFrameModel>) -> Void)?
     
     func loadData(type: String){
         let parameter = ["a":"list","c":"data","type": type]
@@ -19,7 +20,7 @@ class BSHomeSubViewModel: NSObject {
         
         BSNetworkTool.getWithUrl(urlString: url, parameter:parameter, succee: { (result : Dictionary) in
             if self.rloadData != nil {
-                var array = Array<Any>()
+                var array = Array<BSHomeSubFrameModel>()
                 let list  = result["list"] as! Array<Dictionary<String, Any>>
                 
                 for dict in list {
@@ -37,6 +38,32 @@ class BSHomeSubViewModel: NSObject {
             DLog(message: error)
         }
         
+    }
+    
+    func loadMoreData(type: String, page: Int, maxTime: String)  {
+        let parameter = ["a":"list","c":"data","type": type,"page":"\(page)","maxtime":maxTime]
+        
+        let url = "http://api.budejie.com/api/api_open.php"
+        DLog(message: parameter)
+        BSNetworkTool.getWithUrl(urlString: url, parameter:parameter, succee: { (result : Dictionary) in
+            if self.moreData != nil {
+                var array = Array<BSHomeSubFrameModel>()
+                let list  = result["list"] as! Array<Dictionary<String, Any>>
+                
+                for dict in list {
+                    guard let model = BSHomeSubModel.deserialize(from: dict) else{ continue}
+                    model.thumbnailImageUri()
+                    let frameModel = BSHomeSubFrameModel()
+                    frameModel.model = model
+                    
+                    array.append(frameModel)
+                }
+                self.moreData!(array)
+            }
+            //            DLog(message: result)
+        }) { (error) in
+            DLog(message: error)
+        }
     }
     
     

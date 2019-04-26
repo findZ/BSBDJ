@@ -39,7 +39,10 @@ class ZHImageCell: UICollectionViewCell {
             let size = UIImage.calculationImageSize(image: self.image!)
             self.imageView.image = self.image;
             self.imageView.frame = CGRect.init(x: 0, y: 0, width: size.width, height: size.height)
-            self.imageView.center = self.scrollView.center
+            if size.height < screenHeight {
+                self.imageView.center = self.scrollView.center
+            }
+            self.scrollView.contentSize = size
             self.moveView.image = self.image
             self.moveView.frame = self.imageView.frame
         }
@@ -47,12 +50,10 @@ class ZHImageCell: UICollectionViewCell {
     
     lazy var imageView: UIImageView = { [unowned self] in
         let imgV = UIImageView.init(frame: self.bounds)
-        imgV.contentMode = UIView.ContentMode.scaleAspectFit
         return imgV
     }()
     private lazy var moveView: UIImageView = {
-        let imgV = UIImageView.init()
-        imgV.contentMode = UIView.ContentMode.scaleAspectFit
+        let imgV = UIImageView.init(frame: self.bounds)
         imgV.isHidden = true
         return imgV
     }()
@@ -121,7 +122,7 @@ extension ZHImageCell : UIScrollViewDelegate {
     }
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         
-        if (self.doingZoom == false && self.scrollView.zoomScale == 1.0 ) {
+        if (self.doingZoom == false && self.scrollView.zoomScale == 1.0 && self.scrollView.contentSize.height <= screenHeight) {
             if self.delegate != nil {
                 self.delegate?.imageViewWillBeginDragging(imageView: self.imageView)
             }
@@ -158,7 +159,7 @@ extension ZHImageCell {
     }
     // MARK: - KVO
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if (self.doingZoom == false && self.scrollView.zoomScale == 1.0 ) {
+        if (self.doingZoom == false && self.scrollView.zoomScale == 1.0 && self.scrollView.contentSize.height <= screenHeight) {
             self.doPan(pan: self.scrollView.panGestureRecognizer)
         }
     }

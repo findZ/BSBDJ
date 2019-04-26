@@ -7,10 +7,13 @@
 //
 
 import UIKit
-import Kingfisher
+import SDWebImage
+import ZFPlayer
 
 protocol BSHomeSubCellDelegate : NSObjectProtocol{
-    func imageViewDidClick(imageView: UIImageView, index: Int)
+    func imageViewDidClick(imageView: UIImageView, indexPath: IndexPath)
+    func videoViewDidClick(videoView: UIImageView, indexPath: IndexPath)
+    func audioViewDidClick(audioView: UIImageView, indexPath: IndexPath)
 }
 
 class BSHomeSubCell: UITableViewCell {
@@ -44,6 +47,26 @@ class BSHomeSubCell: UITableViewCell {
         return imagV
     }()
     
+    lazy var videoView: UIImageView = { [unowned self] in
+        let imagV = UIImageView.init()
+        imagV.tag = 100
+        imagV.backgroundColor = UIColor.randomColor()
+        imagV.isUserInteractionEnabled = true
+        imagV.contentMode = UIView.ContentMode.scaleAspectFit
+        let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(videoViewTapClick(_:)))
+        imagV.addGestureRecognizer(singleTap)
+        return imagV
+    }()
+    lazy var audioView: UIImageView = { [unowned self] in
+        let imagV = UIImageView.init()
+        imagV.backgroundColor = UIColor.randomColor()
+        imagV.isUserInteractionEnabled = true
+        imagV.contentMode = UIView.ContentMode.scaleAspectFit
+        let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(audioViewTapClick(_:)))
+        imagV.addGestureRecognizer(singleTap)
+        return imagV
+    }()
+    
     lazy var bottomBar: UIView = { [unowned self] in
         let v = UIView.init()
 //        v.backgroundColor = UIColor.randomColor()
@@ -56,11 +79,9 @@ class BSHomeSubCell: UITableViewCell {
         return v
     }()
     
-    var index : Int = 0
+    var indexPath : IndexPath?
     weak var delegate: BSHomeSubCellDelegate?
 
-    
-    
     
     var frameModel : BSHomeSubFrameModel? {
         
@@ -69,40 +90,13 @@ class BSHomeSubCell: UITableViewCell {
             nameLabel.frame = self.frameModel!.nameFrame!
             contentLabel.frame = self.frameModel!.textLabelFrame!
             imgView.frame = self.frameModel!.imageViewFrame ?? CGRect.zero
+            videoView.frame = self.frameModel!.videoViewFrame ?? CGRect.zero
+            audioView.frame = self.frameModel!.audioViewFrame ?? CGRect.zero
             bottomBar.frame = self.frameModel!.bottomBarFrame!
             bottomLine.frame = self.frameModel!.bottomLineFrame!
             
-            let model = self.frameModel?.model
-            let iconUrl = URL.init(string: model!.profile_image!)
-            
-            let processor = RoundCornerImageProcessor(cornerRadius: 17.5)
-            iconView.kf.setImage(
-                with: iconUrl,
-                placeholder: UIImage(named: "AppIcon"),
-                options: [
-                    .processor(processor),
-                    .scaleFactor(UIScreen.main.scale),
-                    .transition(.fade(1)),
-                    .onlyLoadFirstFrame
-                ])
-            
-            if model!.image0 != nil {
-                let imageUrl = URL.init(string: model!.thumbnailImage!)
-                
-                let imgProcessor = RoundCornerImageProcessor(cornerRadius: 3.5)
-                imgView.kf.setImage(
-                    with: imageUrl,
-                    placeholder: UIImage(named: "AppIcon"),
-                    options: [
-                        .processor(imgProcessor),
-                        .scaleFactor(UIScreen.main.scale),
-                        .transition(.fade(1)),
-                        .cacheOriginalImage
-                    ])
-            }
-
-            nameLabel.text = model?.name
-            contentLabel.text = model?.text
+            guard let model = self.frameModel?.model else { return }
+            self.setUpDataWithDataModel(model: model)
             
         }
     }
@@ -152,15 +146,61 @@ extension BSHomeSubCell {
         self.contentView.addSubview(self.nameLabel)
         self.contentView.addSubview(self.contentLabel)
         self.contentView.addSubview(self.imgView)
+        self.contentView.addSubview(self.videoView)
+        self.contentView.addSubview(self.audioView)
         self.contentView.addSubview(self.bottomBar)
         self.contentView.addSubview(self.bottomLine)
 
     }
     
+    func setUpDataWithDataModel(model : BSHomeSubModel) {
+        let iconUrl = URL.init(string: model.profile_image!)
+        iconView.sd_setImage(with: iconUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+        
+        if model.image0 != nil {
+            let imageUrl = URL.init(string: model.thumbnailImage!)
+            switch model.type {
+            case "41"://视频
+                self.videoView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+                
+                break
+            case "10"://图片
+                self.imgView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+                
+                break
+            case "31"://声音
+                self.audioView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+                
+                break
+            case "29"://段子
+                break
+                
+            default:
+                break
+            }
+        }
+        self.nameLabel.text = model.name
+        self.contentLabel.text = model.text
+    }
+    
     @objc func imageViewTapClick(_ gestureRecognizer : UIGestureRecognizer){
         
             if self.delegate != nil {
-                self.delegate?.imageViewDidClick(imageView: self.imgView, index: self.index)
+                self.delegate?.imageViewDidClick(imageView: self.imgView, indexPath: self.indexPath!)
             }
+    }
+    
+    @objc func videoViewTapClick(_ gestureRecognizer : UIGestureRecognizer){
+        
+        if self.delegate != nil {
+            self.delegate?.videoViewDidClick(videoView: self.videoView, indexPath: self.indexPath!)
+        }
+    }
+    
+    @objc func audioViewTapClick(_ gestureRecognizer : UIGestureRecognizer){
+        
+        if self.delegate != nil {
+            self.delegate?.audioViewDidClick(audioView: self.audioView, indexPath: self.indexPath!)
+        }
     }
 }

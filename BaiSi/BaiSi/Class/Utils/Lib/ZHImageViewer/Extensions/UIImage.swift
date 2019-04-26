@@ -42,9 +42,9 @@ extension UIImage {
                 if (screenHeight > imageHeight) {
                     width = imageWidth * (screenWidth / imageWidth);
                     height = imageHeight * (screenWidth / imageWidth);
-                }else {
-                    width = imageWidth / (imageWidth / screenWidth);
-                    height = imageHeight / (imageHeight / screenHeight);
+                }else {//纵向长图
+                    width = screenWidth
+                    height = screenWidth / (imageWidth/imageHeight)
                 }
             }
         }

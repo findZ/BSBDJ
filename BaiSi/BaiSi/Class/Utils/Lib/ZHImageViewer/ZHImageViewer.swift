@@ -19,7 +19,11 @@ class ZHImageViewer: NSObject {
     
     static let shared = ZHImageViewer()
     
-    public func showImageViewer(imageView : UIImageView , dataArray : Array<BSHomeSubFrameModel>, currentIndexPath : Int) {
+    public func showImageViewer(imageView : UIImageView , imageUrl : URL){
+        self.showImageViewer(imageView: imageView, dataArray: [imageUrl], currentIndexPath: 0)
+    }
+    
+    public func showImageViewer(imageView : UIImageView , dataArray : Array<URL>, currentIndexPath : Int) {
         
         let contentView = ZHContentView.init(frame: (keyWindow?.bounds)!)
         contentView.delegate = self

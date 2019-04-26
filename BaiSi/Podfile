@@ -7,9 +7,12 @@ target 'BaiSi' do
 
   # Pods for BaiSi
     pod ‘Alamofire’
-    pod ‘Kingfisher’
     pod ‘MBProgressHUD’
     pod ‘HandyJSON’,'5.0.0-beta'
-    pod ‘PullToRefreshKit’
+    pod ‘MJRefresh’
+    pod ‘SDWebImage’
+    pod ‘ZFPlayer’
+    pod ‘ZFPlayer/ControlView’
+    pod ‘ZFPlayer/AVPlayer’
 end
 

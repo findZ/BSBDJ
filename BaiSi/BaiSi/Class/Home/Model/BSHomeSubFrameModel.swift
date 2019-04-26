@@ -13,6 +13,8 @@ class BSHomeSubFrameModel: NSObject {
     var nameFrame : CGRect?
     var textLabelFrame : CGRect?
     var imageViewFrame : CGRect?
+    var videoViewFrame : CGRect?
+    var audioViewFrame : CGRect?
     var bottomBarFrame : CGRect?
     var bottomLineFrame : CGRect?
 
@@ -35,13 +37,28 @@ class BSHomeSubFrameModel: NSObject {
             textLabelFrame = CGRect.init(x: 10, y: iconViewFrame!.maxY + 5, width: textWidth, height: textHeight ?? 20)
             
             var bottomBarY = textLabelFrame!.maxY + margin
-            if self.model?.type != "29"{
-                let imgY = textLabelFrame!.maxY + margin
-                
-                imageViewFrame = CGRect.init(x: 10, y: imgY, width: 150, height:200)
+            let Y = textLabelFrame!.maxY + margin
+
+            switch self.model?.type {
+            case "41"://视频
+                videoViewFrame = CGRect.init(x: 10, y: Y, width: 300, height:150)
+                bottomBarY = videoViewFrame!.maxY + margin
+                break
+            case "10"://图片
+                imageViewFrame = CGRect.init(x: 10, y: Y, width: 150, height:200)
                 bottomBarY = imageViewFrame!.maxY + margin
+                break
+            case "31"://声音
+                audioViewFrame = CGRect.init(x: 10, y: Y, width: 300, height:100)
+                bottomBarY = audioViewFrame!.maxY + margin
+                break
+            case "29"://段子
+                break
+                
+            default:
+                break
             }
-            bottomBarFrame = CGRect.init(x: 10, y: bottomBarY, width: textWidth, height:35)
+            bottomBarFrame = CGRect.init(x: 10, y: bottomBarY, width: textWidth, height:0)
             bottomLineFrame = CGRect.init(x: 0, y: bottomBarFrame!.maxY, width: Screen_width, height:10)
             cellHeight = bottomLineFrame!.maxY
             

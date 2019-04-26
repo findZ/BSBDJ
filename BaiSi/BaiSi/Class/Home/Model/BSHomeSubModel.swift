@@ -12,7 +12,9 @@ import HandyJSON
 class BSHomeSubModel : HandyJSON {
 
     var id : String?
+    ///41:视频 , 10:图片 , 29:段子 , 31:声音
     var type : String?
+    ///内容
     var text : String?
     var user_id : String?
     var name : String?
@@ -53,7 +55,7 @@ class BSHomeSubModel : HandyJSON {
     var width : String?
     var height : String?
     var tag : String?
-    var t : Int64?
+    var t : String?
     var ding : String?
     var favourite : String?
     
