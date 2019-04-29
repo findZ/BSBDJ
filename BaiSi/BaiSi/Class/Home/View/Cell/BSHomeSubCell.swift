@@ -19,7 +19,12 @@ protocol BSHomeSubCellDelegate : NSObjectProtocol{
 class BSHomeSubCell: UITableViewCell {
 
     lazy var iconView: UIImageView = { [unowned self] in
-        let imagV = UIImageView.init()
+        let imagV = UIImageView.init(frame: CGRect.init(x: 10, y: 10, width: 35, height: 35))
+        let path = UIBezierPath.init(arcCenter: CGPoint.init(x: 35/2.0, y: 35/2.0), radius: 35/2.0, startAngle: 0, endAngle: .pi*2, clockwise: true)
+        let layer = CAShapeLayer.init()
+        layer.frame = imagV.bounds
+        layer.path = path.cgPath
+        imagV.layer.mask = layer
         imagV.contentMode = UIView.ContentMode.scaleAspectFit
         return imagV
     }()
@@ -30,10 +35,18 @@ class BSHomeSubCell: UITableViewCell {
         label.textAlignment = NSTextAlignment.left
         return label
     }()
+    lazy var timeLabel: UILabel = { [unowned self] in
+        let label = UILabel.init()
+        label.textColor = UIColor.darkGray
+        label.font = UIFont.systemFont(ofSize: 11.0)
+        label.textAlignment = NSTextAlignment.left
+        return label
+        }()
     lazy var contentLabel: UILabel = { [unowned self] in
         let label = UILabel.init()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 17.0)
+//        label.backgroundColor = UIColor.randomColor()
+        label.font = UIFont.systemFont(ofSize: 16.0)
         label.textAlignment = NSTextAlignment.left
         return label
     }()
@@ -50,7 +63,7 @@ class BSHomeSubCell: UITableViewCell {
     lazy var videoView: UIImageView = { [unowned self] in
         let imagV = UIImageView.init()
         imagV.tag = 100
-        imagV.backgroundColor = UIColor.randomColor()
+        imagV.backgroundColor = UIColor.black
         imagV.isUserInteractionEnabled = true
         imagV.contentMode = UIView.ContentMode.scaleAspectFit
         let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(videoViewTapClick(_:)))
@@ -59,11 +72,19 @@ class BSHomeSubCell: UITableViewCell {
     }()
     lazy var audioView: UIImageView = { [unowned self] in
         let imagV = UIImageView.init()
-        imagV.backgroundColor = UIColor.randomColor()
+        imagV.backgroundColor = UIColor.black
         imagV.isUserInteractionEnabled = true
         imagV.contentMode = UIView.ContentMode.scaleAspectFit
         let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(audioViewTapClick(_:)))
         imagV.addGestureRecognizer(singleTap)
+        var array = Array<UIImage>()
+        for i in 0 ..< 8 {
+            let img = UIImage.init(named: "showVoice-voice\(i+1)")
+            array.append(img!)
+        }
+        imagV.animationImages = array
+        imagV.animationDuration = 0.8
+        imagV.animationRepeatCount = 0
         return imagV
     }()
     
@@ -88,6 +109,7 @@ class BSHomeSubCell: UITableViewCell {
         didSet {
             iconView.frame = self.frameModel!.iconViewFrame!
             nameLabel.frame = self.frameModel!.nameFrame!
+            timeLabel.frame = self.frameModel!.timeFrame!
             contentLabel.frame = self.frameModel!.textLabelFrame!
             imgView.frame = self.frameModel!.imageViewFrame ?? CGRect.zero
             videoView.frame = self.frameModel!.videoViewFrame ?? CGRect.zero
@@ -144,6 +166,7 @@ extension BSHomeSubCell {
     func setupSubView() {
         self.contentView.addSubview(self.iconView)
         self.contentView.addSubview(self.nameLabel)
+        self.contentView.addSubview(self.timeLabel)
         self.contentView.addSubview(self.contentLabel)
         self.contentView.addSubview(self.imgView)
         self.contentView.addSubview(self.videoView)
@@ -170,7 +193,11 @@ extension BSHomeSubCell {
                 break
             case "31"://声音
                 self.audioView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
-                
+                if model.isPlayAudio == true {
+                    self.audioView.startAnimating()
+                }else{
+                    self.audioView.stopAnimating()
+                }
                 break
             case "29"://段子
                 break
@@ -180,6 +207,7 @@ extension BSHomeSubCell {
             }
         }
         self.nameLabel.text = model.name
+        self.timeLabel.text = model.passtime
         self.contentLabel.text = model.text
     }
     

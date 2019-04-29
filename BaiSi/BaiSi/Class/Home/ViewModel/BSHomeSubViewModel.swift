@@ -12,8 +12,12 @@ class BSHomeSubViewModel: NSObject {
 
     var rloadData : ((Array<BSHomeSubFrameModel>) -> Void)?
     var moreData : ((Array<BSHomeSubFrameModel>) -> Void)?
+    var page : Int = 0
+
     
     func loadData(type: String){
+        self.page = 0
+
         let parameter = ["a":"list","c":"data","type": type]
         
         let url = "http://api.budejie.com/api/api_open.php"
@@ -40,8 +44,10 @@ class BSHomeSubViewModel: NSObject {
         
     }
     
-    func loadMoreData(type: String, page: Int, maxTime: String)  {
-        let parameter = ["a":"list","c":"data","type": type,"page":"\(page)","maxtime":maxTime]
+    func loadMoreData(type: String, maxTime: String)  {
+        self.page += 1
+
+        let parameter = ["a":"list","c":"data","type": type,"page":"\(self.page)","maxtime":maxTime]
         
         let url = "http://api.budejie.com/api/api_open.php"
         DLog(message: parameter)
@@ -59,6 +65,7 @@ class BSHomeSubViewModel: NSObject {
                     array.append(frameModel)
                 }
                 self.moreData!(array)
+            }else{
             }
             //            DLog(message: result)
         }) { (error) in

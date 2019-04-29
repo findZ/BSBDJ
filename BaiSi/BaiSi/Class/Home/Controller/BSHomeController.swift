@@ -67,7 +67,11 @@ extension BSHomeController {
             return
         }
         subVc.type = type
+        guard (subVc.dataArray?.count) == nil else {
+            return
+        }
         subVc.viewModel.loadData(type: type)
+    
     }
 }
 
@@ -87,6 +91,8 @@ extension BSHomeController : BSHomeTitleViewDelegate , BSHomeContentViewDelegate
             return
         }
         DLog(message: type)
+        self.loadData(index: index)
+
     }
 
 }

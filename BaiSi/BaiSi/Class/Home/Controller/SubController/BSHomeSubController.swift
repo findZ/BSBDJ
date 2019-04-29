@@ -9,11 +9,11 @@
 import UIKit
 import MJRefresh
 import ZFPlayer
+import AVFoundation
 
 class BSHomeSubController: BSBaseController {
 
     var type : String?
-    var page : Int = 0
     lazy var player: ZFPlayerController = { [unowned self] in
         let pm = ZFAVPlayerManager()
         let player = ZFPlayerController.player(with: self.tableView, playerManager:pm, containerViewTag: 100)
@@ -33,32 +33,30 @@ class BSHomeSubController: BSBaseController {
         VM.rloadData = {(dataArray: Array<BSHomeSubFrameModel>) in
             self.tableView.mj_header.endRefreshing()
             self.dataArray = dataArray
-            
-            if self.type == "41" {
-                var urls = Array<URL>()
-                for frameModel in dataArray {
-                    let model = frameModel.model
-                    guard let uri = model?.videouri else{return}
-                    let url = URL.init(string:"http://tb-video.bdstatic.com/tieba-smallvideo-transcode/3612804_e50cb68f52adb3c4c3f6135c0edcc7b0_3.mp4")
-                    urls.append(url!)
-                }
-                self.player.assetURLs = urls
-            }
-            
             self.tableView.reloadData()
+            self.loadVideoUrl()
+            
         }
         VM.moreData = {(dataArray: Array<BSHomeSubFrameModel>) in
-            self.tableView.mj_footer.endRefreshing()
             
+//            let row = IndexPath.init(row: self.dataArray!.count-1, section: 0)
             for frameModel in dataArray {
                 self.dataArray?.append(frameModel)
             }
             self.tableView.reloadData()
+//            self.tableView.scrollToRow(at: row, at: UITableView.ScrollPosition.none, animated: false)
+            self.tableView.mj_footer.endRefreshing()
+            self.loadVideoUrl()
+
         }
         return VM
     }()
     
-    private var dataArray : Array<BSHomeSubFrameModel>?
+    var dataArray : Array<BSHomeSubFrameModel>?
+    private lazy var urls : Array<URL> = {
+        let array = Array<URL>()
+        return array
+    }()
     
     private lazy var tableView: UITableView = { [unowned self] in
         let tabV = UITableView.init(frame: CGRect.init(x: 0, y: 0, width: Screen_width, height: Screen_height - TAB_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT))
@@ -72,10 +70,9 @@ class BSHomeSubController: BSBaseController {
                 tabV.mj_header.endRefreshing()
                 return
             }
-            self.page = 0
             self.viewModel.loadData(type: self.type!)
         })
-        tabV.mj_footer = MJRefreshBackNormalFooter.init(refreshingBlock: {
+        tabV.mj_footer = MJRefreshAutoFooter.init(refreshingBlock: {
             guard (self.type != nil) else {
                 tabV.mj_footer.endRefreshing()
                 return
@@ -85,19 +82,27 @@ class BSHomeSubController: BSBaseController {
                 tabV.mj_footer.endRefreshing()
                 return
             }
-            self.page += 1
-            self.viewModel.loadMoreData(type: self.type!, page: self.page, maxTime: model!.t!)
+            self.viewModel.loadMoreData(type: self.type!, maxTime: model!.t!)
         })
         return tabV
     }()
+    
+    lazy var audioPlayer: AVPlayer = {
+        let apl = AVPlayer.init()
+        return apl
+    }()
+    var currentIndexPath : IndexPath?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.groupTableViewBackground
         // Do any additional setup after loading the view.
         self.setupSubView()
-       
-        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.player.stop()
     }
     
    private func setupSubView() {
@@ -167,15 +172,58 @@ extension BSHomeSubController : BSHomeSubCellDelegate{
     func videoViewDidClick(videoView: UIImageView, indexPath: IndexPath) {
         let frameModel = self.dataArray?[indexPath.row]
         let model = frameModel?.model
+        guard let uri = model?.videouri else{return}
+        let url = URL.init(string:uri)!
         
-        self.player.playTheIndexPath(indexPath, scrollToTop: false)
+        self.player.playTheIndexPath(indexPath,assetURL: url ,scrollToTop: false)
         self.controlView.showTitle(model?.text, coverURLString: model!.thumbnailImage, fullScreenMode: ZFFullScreenMode.portrait)
     }
     
     func audioViewDidClick(audioView: UIImageView, indexPath: IndexPath) {
+        let frameModel = self.dataArray?[indexPath.row]
+        let model = frameModel?.model
+        let url = URL.init(string: model!.voiceuri!)
+        guard url != nil else {
+            return
+        }
         
+        if model!.isPlayAudio == true {
+            model!.isPlayAudio = false
+            self.audioPlayer.pause()
+            audioView.stopAnimating()
+            self.currentIndexPath = nil
+        }else{
+            if (self.currentIndexPath != nil) {
+                let frameModel = self.dataArray?[self.currentIndexPath!.row]
+                let model = frameModel?.model
+                model!.isPlayAudio = false
+                self.tableView.reloadRows(at: [self.currentIndexPath!], with: UITableView.RowAnimation.automatic)
+            }
+            self.currentIndexPath = indexPath
+            model!.isPlayAudio = true
+            let playItem = AVPlayerItem.init(url: url!)
+            self.audioPlayer.replaceCurrentItem(with: playItem)
+            self.audioPlayer.play()
+            audioView.startAnimating()
+            
+        }
+    
+        DLog(message: model?.voiceuri)
     }
     
-
+}
+extension BSHomeSubController {
     
+    func loadVideoUrl()  {
+        self.player.stop()
+        for frameModel in self.dataArray! {
+            let model = frameModel.model
+            if model!.type == "41" {
+                guard let uri = model?.videouri else{return}
+                let url = URL.init(string:uri)
+                self.urls.append(url!)
+            }
+        }
+        self.player.assetURLs = self.urls
+    }
 }

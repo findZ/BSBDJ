@@ -62,6 +62,9 @@ class BSHomeSubModel : HandyJSON {
     //自定义字段
     var thumbnailImage : String?
     var avThumbnailImage : String?
+    var thumbnailWidth = Int(Screen_width - 20)
+    var thumbnailHeight : Int?
+    var isPlayAudio : Bool?
     
     
     
@@ -73,7 +76,16 @@ class BSHomeSubModel : HandyJSON {
     func thumbnailImageUri()  {
         if type == "10" || type == "41" || type == "31"{
 
-           thumbnailImage = image0?.replacingOccurrences(of: "http://wimg.spriteapp.cn", with: "http://wimg.spriteapp.cn/crop/150x200")
+            guard self.height != nil && self.height != nil else {return}
+            let width  = NSString.init(string: self.width!)
+            let height = NSString.init(string: self.height!)
+            
+                thumbnailHeight = Int(Double(thumbnailWidth) * (height.doubleValue/width.doubleValue))
+            if thumbnailHeight! > thumbnailWidth{
+                thumbnailHeight = thumbnailWidth
+            }
+            
+            thumbnailImage = image0?.replacingOccurrences(of: "http://wimg.spriteapp.cn", with: "http://wimg.spriteapp.cn/crop/\(thumbnailWidth)x\(thumbnailHeight ?? thumbnailWidth)")
         }
     }
 }

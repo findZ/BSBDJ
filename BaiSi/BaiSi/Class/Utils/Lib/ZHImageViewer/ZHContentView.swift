@@ -53,6 +53,10 @@ class ZHContentView: UIView {
         
         didSet{
             self.mainView.reloadData()
+            if self.dataArray?.count == 0 {
+                self.mainView.isScrollEnabled = false
+
+            }
         }
     }
     

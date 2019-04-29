@@ -11,6 +11,7 @@ import UIKit
 class BSHomeSubFrameModel: NSObject {
     var iconViewFrame : CGRect?
     var nameFrame : CGRect?
+    var timeFrame : CGRect?
     var textLabelFrame : CGRect?
     var imageViewFrame : CGRect?
     var videoViewFrame : CGRect?
@@ -28,24 +29,25 @@ class BSHomeSubFrameModel: NSObject {
             iconViewFrame = CGRect.init(x: 10, y: 10, width: 35, height: 35)
             let nameWidht = Screen_width - iconViewFrame!.maxX - 35
             
-            nameFrame = CGRect.init(x: iconViewFrame!.maxX + margin, y: 15, width: nameWidht, height: 20)
+            nameFrame = CGRect.init(x: iconViewFrame!.maxX + margin, y: 10, width: nameWidht, height: 16)
+            timeFrame = CGRect.init(x: iconViewFrame!.maxX + margin, y: 34, width: nameWidht, height: 11)
             
             let textWidth = Screen_width - 20
             
-            let textHeight = self.model?.text?.boundingRect(with: CGSize.init(width: textWidth, height: CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20.0)], context: nil).size.height
+            let textHeight = (self.model?.text?.boundingRect(with: CGSize.init(width: textWidth, height: CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], context: nil).size.height)! + 10.0
             
-            textLabelFrame = CGRect.init(x: 10, y: iconViewFrame!.maxY + 5, width: textWidth, height: textHeight ?? 20)
+            textLabelFrame = CGRect.init(x: 10, y: iconViewFrame!.maxY + 5, width: textWidth, height: textHeight)
             
             var bottomBarY = textLabelFrame!.maxY + margin
             let Y = textLabelFrame!.maxY + margin
 
             switch self.model?.type {
             case "41"://视频
-                videoViewFrame = CGRect.init(x: 10, y: Y, width: 300, height:150)
+                videoViewFrame = CGRect.init(x: 10, y: Int(Y), width: self.model!.thumbnailWidth, height:200)
                 bottomBarY = videoViewFrame!.maxY + margin
                 break
             case "10"://图片
-                imageViewFrame = CGRect.init(x: 10, y: Y, width: 150, height:200)
+                imageViewFrame = CGRect.init(x: 10, y: Int(Y), width: self.model!.thumbnailWidth, height:self.model!.thumbnailHeight!)
                 bottomBarY = imageViewFrame!.maxY + margin
                 break
             case "31"://声音

@@ -42,7 +42,7 @@ class ZHImageCell: UICollectionViewCell {
             if size.height < screenHeight {
                 self.imageView.center = self.scrollView.center
             }
-            self.scrollView.contentSize = size
+            self.scrollView.contentSize = CGSize.init(width: self.bounds.size.width, height: size.height)
             self.moveView.image = self.image
             self.moveView.frame = self.imageView.frame
         }
