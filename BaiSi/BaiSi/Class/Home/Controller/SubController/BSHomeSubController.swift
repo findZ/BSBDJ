@@ -96,6 +96,8 @@ class BSHomeSubController: BSBaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationBar.isHidden = false
+
         self.view.backgroundColor = UIColor.groupTableViewBackground
         // Do any additional setup after loading the view.
         self.setupSubView()
@@ -135,8 +137,14 @@ extension BSHomeSubController : UITableViewDataSource, UITableViewDelegate {
         if self.player.playingIndexPath != indexPath {
             self.player.stopCurrentPlayingCell()
         }
-        /// 如果没有播放，则点击进详情页会自动播放
+        /// 如果没有播放，则点击进详情页
         if (self.player.currentPlayerManager.isPlaying == false){
+            let frameModel = self.dataArray?[indexPath.row]
+
+            let detailsVc = BSHomeDetailsController.init()
+            detailsVc.model = frameModel?.model
+            self.navigationController?.pushViewController(detailsVc, animated: true)
+            
         }
     }
 }

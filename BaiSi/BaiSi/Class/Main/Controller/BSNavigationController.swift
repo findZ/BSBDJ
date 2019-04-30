@@ -1,30 +1,21 @@
 //
-//  BSPublishController.swift
+//  BSNavigationController.swift
 //  BaiSi
 //
-//  Created by wzh on 2019/4/2.
+//  Created by wzh on 2019/4/30.
 //  Copyright © 2019 wzh. All rights reserved.
 //
 
 import UIKit
 
-class BSPublishController: BSBaseController {
+class BSNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationBar.isHidden = false
-
+        self.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
         // Do any additional setup after loading the view.
-        let btn = UIButton(type: UIButton.ButtonType.infoLight)
-        btn.frame = CGRect.init(x: 10, y: STATUS_BAR_HEIGHT, width: 40, height: 40)
-        btn.backgroundColor = UIColor.randomColor()
-        btn.addTarget(self, action: #selector(btnClick), for: UIControl.Event.touchUpInside)
-//        self.view.addSubview(btn)
     }
     
-    @objc func btnClick(){
-        self.dismiss(animated: true, completion: nil)
-    }
 
     /*
     // MARK: - Navigation
@@ -35,5 +26,11 @@ class BSPublishController: BSBaseController {
         // Pass the selected object to the new view controller.
     }
     */
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        if self.viewControllers.count > 0 {
+            viewController.hidesBottomBarWhenPushed = true
+        }
+        super.pushViewController(viewController, animated: animated)
+    }
 
 }

@@ -18,6 +18,9 @@
 		290824F6225F8530004EA940 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824F0225F8530004EA940 /* UIImage.swift */; };
 		290824F7225F8530004EA940 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824F1225F8530004EA940 /* UIImageView.swift */; };
 		290824F8225F8530004EA940 /* ZHImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290824F2225F8530004EA940 /* ZHImageCell.swift */; };
+		2918E9202277E8C300903984 /* BSHomeDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2918E91F2277E8C300903984 /* BSHomeDetailsController.swift */; };
+		2918E9222277EE4600903984 /* BSNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2918E9212277EE4600903984 /* BSNavigationController.swift */; };
+		2918E9242277F61900903984 /* BSNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2918E9232277F61900903984 /* BSNavigationBar.swift */; };
 		292F420722730F8B004C6ACB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292F420622730F8A004C6ACB /* UIKit.framework */; };
 		292F420922730F9C004C6ACB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292F420822730F9C004C6ACB /* Foundation.framework */; };
 		292F420B22730FA7004C6ACB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292F420A22730FA7004C6ACB /* CoreGraphics.framework */; };
@@ -53,6 +56,9 @@
 		290824F0225F8530004EA940 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		290824F1225F8530004EA940 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		290824F2225F8530004EA940 /* ZHImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZHImageCell.swift; sourceTree = "<group>"; };
+		2918E91F2277E8C300903984 /* BSHomeDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeDetailsController.swift; sourceTree = "<group>"; };
+		2918E9212277EE4600903984 /* BSNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSNavigationController.swift; sourceTree = "<group>"; };
+		2918E9232277F61900903984 /* BSNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSNavigationBar.swift; sourceTree = "<group>"; };
 		292F420622730F8A004C6ACB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		292F420822730F9C004C6ACB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		292F420A22730FA7004C6ACB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -100,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				290365DC22548B9C0087AE35 /* BSHomeSubController.swift */,
+				2918E91F2277E8C300903984 /* BSHomeDetailsController.swift */,
 			);
 			path = SubController;
 			sourceTree = "<group>";
@@ -261,6 +268,7 @@
 			children = (
 				29F9A0D422533BE700879E51 /* BSTabBarController.swift */,
 				29F9A0EA225352DF00879E51 /* BSBaseController.swift */,
+				2918E9212277EE4600903984 /* BSNavigationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -269,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				29F9A0F22253580800879E51 /* BSMainTabBar.swift */,
+				2918E9232277F61900903984 /* BSNavigationBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -554,16 +563,19 @@
 				292F9C5E225D9BFF00FAA800 /* BSHomeSubModel.swift in Sources */,
 				29F9A0D522533BE700879E51 /* BSTabBarController.swift in Sources */,
 				29F9A0E52253412000879E51 /* BSAttentionController.swift in Sources */,
+				2918E9202277E8C300903984 /* BSHomeDetailsController.swift in Sources */,
 				290824F4225F8530004EA940 /* ZHContentView.swift in Sources */,
 				29F9A0E32253410300879E51 /* BSMineController.swift in Sources */,
 				29F9A0ED2253564900879E51 /* BSPublicExtension.swift in Sources */,
 				290824F5225F8530004EA940 /* UIScrollView.swift in Sources */,
+				2918E9222277EE4600903984 /* BSNavigationController.swift in Sources */,
 				290365E32254A4440087AE35 /* BSNetworkTool.swift in Sources */,
 				29F9A0E92253416300879E51 /* BSHomeController.swift in Sources */,
 				292F9C59225C9C8F00FAA800 /* BSHomeSubViewModel.swift in Sources */,
 				29F9A0F12253578D00879E51 /* BSPublishController.swift in Sources */,
 				290824F8225F8530004EA940 /* ZHImageCell.swift in Sources */,
 				290365DF22548BD30087AE35 /* BSHomeContentView.swift in Sources */,
+				2918E9242277F61900903984 /* BSNavigationBar.swift in Sources */,
 				29F9A0B62253373300879E51 /* AppDelegate.swift in Sources */,
 				290824F7225F8530004EA940 /* UIImageView.swift in Sources */,
 				29F9A0F32253580800879E51 /* BSMainTabBar.swift in Sources */,

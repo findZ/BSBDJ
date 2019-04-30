@@ -34,7 +34,7 @@ class BSHomeSubFrameModel: NSObject {
             
             let textWidth = Screen_width - 20
             
-            let textHeight = (self.model?.text?.boundingRect(with: CGSize.init(width: textWidth, height: CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], context: nil).size.height)! + 10.0
+            let textHeight = (self.model?.text?.boundingRect(with: CGSize.init(width: textWidth, height: CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.pingFangSCRegular(size: 16.0)], context: nil).size.height)! + 10.0
             
             textLabelFrame = CGRect.init(x: 10, y: iconViewFrame!.maxY + 5, width: textWidth, height: textHeight)
             

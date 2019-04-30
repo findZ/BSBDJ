@@ -20,11 +20,7 @@ class BSHomeSubCell: UITableViewCell {
 
     lazy var iconView: UIImageView = { [unowned self] in
         let imagV = UIImageView.init(frame: CGRect.init(x: 10, y: 10, width: 35, height: 35))
-        let path = UIBezierPath.init(arcCenter: CGPoint.init(x: 35/2.0, y: 35/2.0), radius: 35/2.0, startAngle: 0, endAngle: .pi*2, clockwise: true)
-        let layer = CAShapeLayer.init()
-        layer.frame = imagV.bounds
-        layer.path = path.cgPath
-        imagV.layer.mask = layer
+        imagV.circularBeadWithRadius(radius: 35/2.0)
         imagV.contentMode = UIView.ContentMode.scaleAspectFit
         return imagV
     }()
@@ -46,7 +42,7 @@ class BSHomeSubCell: UITableViewCell {
         let label = UILabel.init()
         label.numberOfLines = 0
 //        label.backgroundColor = UIColor.randomColor()
-        label.font = UIFont.systemFont(ofSize: 16.0)
+        label.font = UIFont.pingFangSCRegular(size: 16.0)
         label.textAlignment = NSTextAlignment.left
         return label
     }()

@@ -10,9 +10,19 @@ import UIKit
 
 class BSBaseController: UIViewController {
 
+    lazy var navigationBar: BSNavigationBar = {
+        let nav = BSNavigationBar.init(frame: CGRect.init(x: 0, y: 0, width: Screen_width, height: NAVIGATION_BAR_HEIGHT))
+        nav.backgroundColor = UIColor.white
+        nav.leftButton.addTarget(self, action: #selector(leftButtonClick), for: UIControl.Event.touchUpInside)
+        
+        nav.isHidden = true
+        return nav
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.randomColor()
+        self.view.backgroundColor = UIColor.groupTableViewBackground
+        self.setupNavigationBar()
         // Do any additional setup after loading the view.
     }
     
@@ -31,4 +41,14 @@ class BSBaseController: UIViewController {
 
 extension BSBaseController {
  
+    func setupNavigationBar(){
+        self.view.addSubview(self.navigationBar)
+    }
+    @objc func leftButtonClick(){
+        if self.navigationController?.viewControllers.count ?? 0 > 1{
+            self.navigationController?.popViewController(animated: true)
+        }else{
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
 }

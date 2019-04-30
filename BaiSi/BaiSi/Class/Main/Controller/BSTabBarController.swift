@@ -20,7 +20,6 @@ class BSTabBarController: UITabBarController {
         self.bsTabBar = tabBar
         self.setValue(tabBar, forKey: "tabBar")
         self.addChildController()
-//        self.delegate = self
         // Do any additional setup after loading the view.
     }
     
@@ -51,7 +50,9 @@ extension BSTabBarController {
     childVc.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.withRGB(255, 47, 86)], for: UIControl.State.selected)//必须在这里设置，如果在childVc中设置tabBarItem属性会造成tabBarItem顺序错乱
         childVc.tabBarItem.image = UIImage(named: imageName)?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         childVc.tabBarItem.selectedImage = UIImage.init(named: selectedImageName)?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-        self.addChild(childVc)
+        let nav = BSNavigationController.init(rootViewController: childVc)
+        nav.setNavigationBarHidden(true, animated: false)
+        self.addChild(nav)
     }
 }
 

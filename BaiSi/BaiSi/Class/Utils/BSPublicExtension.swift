@@ -242,6 +242,17 @@ extension UIView {
         return self.frame.size.width
     }
     
+    /// 圆角
+    ///
+    /// - Parameter radius: 半径
+    func circularBeadWithRadius(radius: CGFloat)  {
+        
+        let path = UIBezierPath.init(roundedRect: self.bounds, cornerRadius: radius)
+        let layer = CAShapeLayer.init()
+        layer.frame = self.bounds
+        layer.path = path.cgPath
+        self.layer.mask = layer
+    }
     
 }
 
@@ -260,3 +271,22 @@ extension CGFloat {
     }
 }
 
+extension UIFont {
+    
+   /// 苹方-简 细体
+   static func pingFangSCLight(size: CGFloat) -> UIFont {
+        if let font = UIFont.init(name:"PingFangSC-Light", size: size) {
+            return font
+        }else{
+            return UIFont.systemFont(ofSize: size)
+        }
+    }
+    /// 苹方-简 常规体
+    static func pingFangSCRegular(size: CGFloat) -> UIFont {
+        if let font = UIFont.init(name:"PingFangSC-Regular", size: size) {
+            return font
+        }else{
+            return UIFont.systemFont(ofSize: size)
+        }
+    }
+}
