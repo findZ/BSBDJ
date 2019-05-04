@@ -19,6 +19,8 @@ let Screen_bounds = UIScreen.main.bounds
 //主题色
 let ThemeColor = UIColor.withRGB(255, 47, 86)
 
+let CommentColor = UIColor.withRGB(147, 147, 147)
+
 
 //iPhone X
 let iPhoneX = Screen_height >= 812.0 ? true : false

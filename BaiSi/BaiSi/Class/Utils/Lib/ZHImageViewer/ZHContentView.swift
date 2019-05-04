@@ -22,8 +22,8 @@ private let reuseIdentifier = "Cell"
 
 
 class ZHContentView: UIView {
-    public var fromView : UIView?
-    public var currentView : UIView?
+    public var fromView : UIImageView?
+    public var currentView : UIImageView?
     
     weak var delegate : ZHContentViewDelegate?
     
@@ -99,7 +99,7 @@ extension ZHContentView : UICollectionViewDataSource, UICollectionViewDelegate {
             imageCell.delegate = self
             let imageUrl = self.dataArray?[indexPath.row] as URL?
             
-            imageCell.imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.delayPlaceholder) { (image, error, CacheType, url) in
+            imageCell.imageView.sd_setImage(with: imageUrl, placeholderImage: self.fromView?.image, options: SDWebImageOptions.delayPlaceholder) { (image, error, CacheType, url) in
                 imageCell.image = image
             }
         }

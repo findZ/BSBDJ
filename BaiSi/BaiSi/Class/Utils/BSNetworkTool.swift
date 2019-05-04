@@ -11,20 +11,37 @@ import Alamofire
 
 
 
-typealias succeeClosure = (_ result:Dictionary<String, Any>)->Void
+typealias successClosure = (_ result:Dictionary<String, Any>)->Void
 typealias failureClosure = (_ error: Error)->Void
+
+struct BSError : Error {
+    var value : String?
+    init(value: String) {
+        self.value = value
+    }
+}
 
 class BSNetworkTool: NSObject {
 
-    static func getWithUrl(urlString: String, parameter : Dictionary<String, String>, succee: @escaping succeeClosure, failure: @escaping failureClosure ){
+    static func getWithUrl(urlString: String, parameter : Dictionary<String, Any>, success: @escaping successClosure, failure: @escaping failureClosure ){
         Alamofire.request(urlString,method:.get,parameters: parameter).responseJSON { (response) in
             if let data = response.data {
                 
-                let dict = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
-                guard dict != nil else {
-                    return
+                var dict : Any
+                do {
+                    dict = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+                    guard dict is Dictionary<String, Any> else {
+                        let error = BSError.init(value: "error data not dictionary")
+                        failure(error)
+                        return
+                    }
+                    success(dict as! Dictionary<String, Any>)
+                } catch  {
+                    let error = BSError.init(value: "error data not dictionary")
+                    DLog(message: error)
                 }
-                succee(dict! as! Dictionary<String, Any>)
+
+                
             }else{
                 failure(response.error!)
             }

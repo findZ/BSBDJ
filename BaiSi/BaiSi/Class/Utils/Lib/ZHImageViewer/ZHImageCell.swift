@@ -41,6 +41,7 @@ class ZHImageCell: UICollectionViewCell {
             self.imageView.frame = CGRect.init(x: 0, y: 0, width: size.width, height: size.height)
             if size.height < screenHeight {
                 self.imageView.center = self.scrollView.center
+                self.scrollView.alwaysBounceHorizontal = true;
             }
             self.scrollView.contentSize = CGSize.init(width: self.bounds.size.width, height: size.height)
             self.moveView.image = self.image
@@ -64,7 +65,7 @@ class ZHImageCell: UICollectionViewCell {
         scrollV.minimumZoomScale = 1.0;
         scrollV.maximumZoomScale = 3.0;
         scrollV.alwaysBounceVertical = true;
-        scrollV.alwaysBounceHorizontal = true;
+        scrollV.alwaysBounceHorizontal = false;
         scrollV.showsVerticalScrollIndicator = false;
         scrollV.showsHorizontalScrollIndicator = false;
         scrollV.contentSize = CGSize.init(width: 0, height: self.bounds.size.height)

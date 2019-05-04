@@ -8,12 +8,13 @@
 
 import UIKit
 import SDWebImage
-import ZFPlayer
 
 protocol BSHomeSubCellDelegate : NSObjectProtocol{
     func imageViewDidClick(imageView: UIImageView, indexPath: IndexPath)
     func videoViewDidClick(videoView: UIImageView, indexPath: IndexPath)
     func audioViewDidClick(audioView: UIImageView, indexPath: IndexPath)
+    func iconViewDidClick(iconView: UIImageView, indexPath: IndexPath)
+
 }
 
 class BSHomeSubCell: UITableViewCell {
@@ -21,10 +22,23 @@ class BSHomeSubCell: UITableViewCell {
     lazy var iconView: UIImageView = { [unowned self] in
         let imagV = UIImageView.init(frame: CGRect.init(x: 10, y: 10, width: 35, height: 35))
         imagV.circularBeadWithRadius(radius: 35/2.0)
+        imagV.isUserInteractionEnabled = true
         imagV.contentMode = UIView.ContentMode.scaleAspectFit
+        let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(iconViewTapClick(_:)))
+        imagV.addGestureRecognizer(singleTap)
         return imagV
     }()
-    
+    lazy var vipView: UIImageView = {
+        let vip = UIImageView.init(image: UIImage.init(named: "tag_user_vip_icon"))
+        vip.isHidden = true
+        return vip
+    }()
+    lazy var gifIcon: UIImageView = {
+        let imgV = UIImageView.init(image: UIImage.init(named: "common-gif_31x31"))
+        imgV.isHidden = true
+        return imgV
+    }()
+
     lazy var nameLabel: UILabel = { [unowned self] in
         let label = UILabel.init()
         label.font = UIFont.systemFont(ofSize: 13.0)
@@ -89,6 +103,46 @@ class BSHomeSubCell: UITableViewCell {
 //        v.backgroundColor = UIColor.randomColor()
         return v
     }()
+    lazy var zanButton: UIButton = {
+        let width = (Screen_width - 20)/4
+        let btn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: width, height: 35))
+        btn.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: 0)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        btn.setTitleColor(CommentColor, for: UIControl.State.normal)
+        btn.setImage(UIImage.init(named: "mainCellDingN_23x23_"), for: UIControl.State.normal)
+        return btn
+    }()
+    lazy var caiButton: UIButton = {
+        let width = (Screen_width - 20)/4
+        let btn = UIButton.init(frame: CGRect.init(x: width, y: 0, width: width, height: 35))
+        btn.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: 0)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        btn.setTitleColor(CommentColor, for: UIControl.State.normal)
+        btn.setImage(UIImage.init(named: "mainCellCaiN_23x23_"), for: UIControl.State.normal)
+
+        return btn
+    }()
+    lazy var shareButton: UIButton = {
+        let width = (Screen_width - 20)/4
+        let btn = UIButton.init(frame: CGRect.init(x: width*2, y: 0, width: width, height: 35))
+        btn.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: 0)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        btn.setTitleColor(CommentColor, for: UIControl.State.normal)
+        btn.setImage(UIImage.init(named: "mainCellShareN_20x20_"), for: UIControl.State.normal)
+
+        return btn
+    }()
+    lazy var commentButton: UIButton = {
+        let width = (Screen_width - 20)/4
+        let btn = UIButton.init(frame: CGRect.init(x: width*3, y: 0, width: width, height: 35))
+        btn.isUserInteractionEnabled = false
+        btn.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: 0)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        btn.setTitleColor(CommentColor, for: UIControl.State.normal)
+        btn.setImage(UIImage.init(named: "mainCellCommentN_20x20_"), for: UIControl.State.normal)
+        
+        return btn
+    }()
     
     lazy var bottomLine: UIView = { [unowned self] in
         let v = UIView.init()
@@ -100,10 +154,11 @@ class BSHomeSubCell: UITableViewCell {
     weak var delegate: BSHomeSubCellDelegate?
 
     
-    var frameModel : BSHomeSubFrameModel? {
+    var frameModel : BSHomeDataModelFrame? {
         
         didSet {
             iconView.frame = self.frameModel!.iconViewFrame!
+            vipView.frame = self.frameModel!.vipViewFrame!
             nameLabel.frame = self.frameModel!.nameFrame!
             timeLabel.frame = self.frameModel!.timeFrame!
             contentLabel.frame = self.frameModel!.textLabelFrame!
@@ -161,6 +216,7 @@ extension BSHomeSubCell {
     
     func setupSubView() {
         self.contentView.addSubview(self.iconView)
+        self.contentView.addSubview(self.vipView)
         self.contentView.addSubview(self.nameLabel)
         self.contentView.addSubview(self.timeLabel)
         self.contentView.addSubview(self.contentLabel)
@@ -169,44 +225,71 @@ extension BSHomeSubCell {
         self.contentView.addSubview(self.audioView)
         self.contentView.addSubview(self.bottomBar)
         self.contentView.addSubview(self.bottomLine)
+        self.imgView.addSubview(self.gifIcon)
+        self.bottomBar.addSubview(self.zanButton)
+        self.bottomBar.addSubview(self.caiButton)
+        self.bottomBar.addSubview(self.shareButton)
+        self.bottomBar.addSubview(self.commentButton)
 
     }
     
-    func setUpDataWithDataModel(model : BSHomeSubModel) {
-        let iconUrl = URL.init(string: model.profile_image!)
+    func setUpDataWithDataModel(model : BSHomeDataModel) {
+        let iconUrl = URL.init(string: (model.u?.header!.last)!)
         iconView.sd_setImage(with: iconUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
         
-        if model.image0 != nil {
-            let imageUrl = URL.init(string: model.thumbnailImage!)
-            switch model.type {
-            case "41"://视频
-                self.videoView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
-                
-                break
-            case "10"://图片
-                self.imgView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
-                
-                break
-            case "31"://声音
-                self.audioView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
-                if model.isPlayAudio == true {
-                    self.audioView.startAnimating()
-                }else{
-                    self.audioView.stopAnimating()
-                }
-                break
-            case "29"://段子
-                break
-                
-            default:
-                break
+        var imageUrl = URL.init(string: "")
+        self.gifIcon.isHidden = true
+
+        switch model.type {
+        case "video"://视频
+            let video = model.video
+            imageUrl = URL.init(string: (video?.thumbnail!.last)!)
+            self.videoView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+            
+            break
+        case "image"://图片
+            let image = model.image
+            imageUrl = URL.init(string: (image?.thumbnail_small!.last)!)
+            self.imgView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+            break
+        case "gif"://gif图片
+            self.gifIcon.isHidden = false
+            let gif = model.gif
+            imageUrl = URL.init(string: (gif?.gif_thumbnail!.last)!)
+            self.imgView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+            break
+        case "audio"://声音
+            let audio = model.audio
+            imageUrl = URL.init(string: (audio?.thumbnail!.last)!)
+            self.audioView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+            if model.isPlayAudio == true {
+                self.audioView.startAnimating()
+            }else{
+                self.audioView.stopAnimating()
             }
+            break
+        case "text"://段子
+            break
+            
+        default:
+            break
         }
-        self.nameLabel.text = model.name
+
+        self.nameLabel.text = model.u?.name
         self.timeLabel.text = model.passtime
         self.contentLabel.text = model.text
+        self.zanButton.setTitle(model.up, for: UIControl.State.normal)
+        self.caiButton.setTitle(model.down, for: UIControl.State.normal)
+        self.shareButton.setTitle(model.forward, for: UIControl.State.normal)
+        self.commentButton.setTitle(model.comment, for: UIControl.State.normal)
+
+        if model.u!.is_v! {
+            self.vipView.isHidden = false
+        }else{
+            self.vipView.isHidden = true
+        }
     }
-    
+
     @objc func imageViewTapClick(_ gestureRecognizer : UIGestureRecognizer){
         
             if self.delegate != nil {
@@ -225,6 +308,12 @@ extension BSHomeSubCell {
         
         if self.delegate != nil {
             self.delegate?.audioViewDidClick(audioView: self.audioView, indexPath: self.indexPath!)
+        }
+    }
+    @objc func iconViewTapClick(_ gestureRecognizer : UIGestureRecognizer){
+        
+        if self.delegate != nil {
+            self.delegate?.iconViewDidClick(iconView: self.iconView, indexPath: self.indexPath!)
         }
     }
 }

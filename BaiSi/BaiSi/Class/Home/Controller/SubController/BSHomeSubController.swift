@@ -30,29 +30,16 @@ class BSHomeSubController: BSBaseController {
     
     lazy var viewModel: BSHomeSubViewModel = { [unowned self] in
         let VM = BSHomeSubViewModel()
-        VM.rloadData = {(dataArray: Array<BSHomeSubFrameModel>) in
+        VM.delegate = self
+        VM.error = { (error : Error) in
             self.tableView.mj_header.endRefreshing()
-            self.dataArray = dataArray
-            self.tableView.reloadData()
-            self.loadVideoUrl()
-            
-        }
-        VM.moreData = {(dataArray: Array<BSHomeSubFrameModel>) in
-            
-//            let row = IndexPath.init(row: self.dataArray!.count-1, section: 0)
-            for frameModel in dataArray {
-                self.dataArray?.append(frameModel)
-            }
-            self.tableView.reloadData()
-//            self.tableView.scrollToRow(at: row, at: UITableView.ScrollPosition.none, animated: false)
             self.tableView.mj_footer.endRefreshing()
-            self.loadVideoUrl()
-
         }
+
         return VM
     }()
     
-    var dataArray : Array<BSHomeSubFrameModel>?
+    var dataArray : Array<BSHomeDataModelFrame>?
     private lazy var urls : Array<URL> = {
         let array = Array<URL>()
         return array
@@ -70,19 +57,10 @@ class BSHomeSubController: BSBaseController {
                 tabV.mj_header.endRefreshing()
                 return
             }
-            self.viewModel.loadData(type: self.type!)
+            self.viewModel.loadNewData()
         })
-        tabV.mj_footer = MJRefreshAutoFooter.init(refreshingBlock: {
-            guard (self.type != nil) else {
-                tabV.mj_footer.endRefreshing()
-                return
-            }
-            let model = self.dataArray?.last?.model
-            guard (model?.t != nil) else {
-                tabV.mj_footer.endRefreshing()
-                return
-            }
-            self.viewModel.loadMoreData(type: self.type!, maxTime: model!.t!)
+        tabV.mj_footer = MJRefreshBackStateFooter.init(refreshingBlock: {
+            self.viewModel.loadMoreData()
         })
         return tabV
     }()
@@ -137,15 +115,14 @@ extension BSHomeSubController : UITableViewDataSource, UITableViewDelegate {
         if self.player.playingIndexPath != indexPath {
             self.player.stopCurrentPlayingCell()
         }
-        /// 如果没有播放，则点击进详情页
-        if (self.player.currentPlayerManager.isPlaying == false){
-            let frameModel = self.dataArray?[indexPath.row]
-
-            let detailsVc = BSHomeDetailsController.init()
-            detailsVc.model = frameModel?.model
-            self.navigationController?.pushViewController(detailsVc, animated: true)
-            
+        /// 停止播放
+        if (self.player.currentPlayerManager.isPlaying == true){
+            self.player.stopCurrentPlayingCell()
         }
+        let frameModel = self.dataArray?[indexPath.row]
+        let detailsVc = BSHomeDetailsController.init()
+        detailsVc.model = frameModel?.model
+        self.navigationController?.pushViewController(detailsVc, animated: true)
     }
 }
 
@@ -168,19 +145,33 @@ extension BSHomeSubController : UIScrollViewDelegate {
 }
 
 extension BSHomeSubController : BSHomeSubCellDelegate{
+    func iconViewDidClick(iconView: UIImageView, indexPath: IndexPath) {
+        let frameModel = self.dataArray?[indexPath.row]
+        let mineVc = BSMineController()
+        mineVc.userId = frameModel?.model?.u?.uid
+        self.navigationController?.pushViewController(mineVc, animated: true)
+        
+    }
+    
     func imageViewDidClick(imageView: UIImageView, indexPath: IndexPath) {
         let frameModel = self.dataArray?[indexPath.row]
-        guard frameModel?.model!.image0 != nil else {
-            return
+   
+        var url : String?
+        if frameModel?.model?.type == "image" {
+            url = frameModel?.model!.image!.big!.last
+        }else if frameModel?.model?.type == "gif"{
+            url = frameModel?.model!.gif!.images!.last
         }
-        let imageUrl = URL.init(string: (frameModel?.model?.image0!)!)
-        ZHImageViewer.shared.showImageViewer(imageView: imageView, imageUrl: imageUrl!)
+        if url?.isEmpty == false {
+            let imageUrl = URL.init(string:url!)
+            ZHImageViewer.shared.showImageViewer(imageView: imageView, imageUrl: imageUrl!)
+        }
     }
     
     func videoViewDidClick(videoView: UIImageView, indexPath: IndexPath) {
         let frameModel = self.dataArray?[indexPath.row]
         let model = frameModel?.model
-        guard let uri = model?.videouri else{return}
+        guard let uri = model?.video?.video?.last else{return}
         let url = URL.init(string:uri)!
         
         self.player.playTheIndexPath(indexPath,assetURL: url ,scrollToTop: false)
@@ -190,10 +181,10 @@ extension BSHomeSubController : BSHomeSubCellDelegate{
     func audioViewDidClick(audioView: UIImageView, indexPath: IndexPath) {
         let frameModel = self.dataArray?[indexPath.row]
         let model = frameModel?.model
-        let url = URL.init(string: model!.voiceuri!)
-        guard url != nil else {
+        guard let audio = model?.audio?.audio?.last else {
             return
         }
+        let url = URL.init(string:audio)
         
         if model!.isPlayAudio == true {
             model!.isPlayAudio = false
@@ -215,8 +206,6 @@ extension BSHomeSubController : BSHomeSubCellDelegate{
             audioView.startAnimating()
             
         }
-    
-        DLog(message: model?.voiceuri)
     }
     
 }
@@ -226,12 +215,31 @@ extension BSHomeSubController {
         self.player.stop()
         for frameModel in self.dataArray! {
             let model = frameModel.model
-            if model!.type == "41" {
-                guard let uri = model?.videouri else{return}
+            if model!.type == "video" {
+                guard let uri = model?.video?.video?.last else{return}
                 let url = URL.init(string:uri)
                 self.urls.append(url!)
             }
         }
         self.player.assetURLs = self.urls
     }
+}
+
+extension BSHomeSubController : BSViewModelDelagate {
+    func loadNewDataDidFinish(dataArray: Array<Any>) {
+        self.tableView.mj_header.endRefreshing()
+        self.dataArray = (dataArray as! Array<BSHomeDataModelFrame>)
+        self.tableView.reloadData()
+        self.loadVideoUrl()
+    }
+    
+    func loadMoreDataDidFinish(dataArray: Array<Any>) {
+        for frameModel in dataArray {
+            self.dataArray?.append(frameModel as! BSHomeDataModelFrame)
+        }
+        self.tableView.reloadData()
+        self.tableView.mj_footer.endRefreshing()
+        self.loadVideoUrl()
+    }
+    
 }

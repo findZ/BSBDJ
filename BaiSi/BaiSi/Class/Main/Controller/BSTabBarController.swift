@@ -42,7 +42,9 @@ extension BSTabBarController {
         self.setupSubViewController(childVc: BSHomeController(), title: "首页", imageName: "home_icon", selectedImageName: "home_icon_select")
         self.setupSubViewController(childVc: BSCommunityController(), title: "社区", imageName: "community_icon", selectedImageName: "community_icon_select")
         self.setupSubViewController(childVc: BSAttentionController(), title: "关注", imageName: "attention_icon", selectedImageName: "attention_icon_select")
-        self.setupSubViewController(childVc: BSMineController(), title: "我的", imageName: "mine_icon", selectedImageName: "mine_icon_select")
+        let mineVc = BSMineController()
+            mineVc.userId = "23069386"
+        self.setupSubViewController(childVc:mineVc, title: "我的", imageName: "mine_icon", selectedImageName: "mine_icon_select")
     }
     
     func setupSubViewController(childVc: UIViewController, title: String, imageName: String, selectedImageName: String){

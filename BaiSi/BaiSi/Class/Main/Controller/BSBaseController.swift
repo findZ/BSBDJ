@@ -37,6 +37,16 @@ class BSBaseController: UIViewController {
     }
     */
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return UIStatusBarStyle.default
+        }
+    }
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return false
+        }
+    }
 }
 
 extension BSBaseController {

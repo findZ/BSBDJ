@@ -9,10 +9,7 @@
 import UIKit
 
 class BSHomeController: BSBaseController {
-    lazy var viwModel: BSHomeViewModel = {
-        let VM = BSHomeViewModel()
-        return VM
-    }()
+
     lazy var titleView: BSHomeTitleView = { [unowned self] in
         let tv = BSHomeTitleView.init(frame: CGRect.init(x: 0, y: STATUS_BAR_HEIGHT, width: Screen_width, height: 44))
         tv.delegate = self
@@ -43,15 +40,15 @@ class BSHomeController: BSBaseController {
 extension BSHomeController {
     
     func setupSubView(){
-        let titleaArray = self.viewModel.titleArray
+        let titleArray = self.viewModel.titleArray
         
-        self.titleView.titles = titleaArray
+        self.titleView.titles = titleArray
         self.view.addSubview(self.titleView)
       
         self.view.addSubview(self.contentView)
         var contentArray = Array<UIView>()
         
-        for _ in titleaArray{
+        for _ in titleArray{
             let subVc = BSHomeSubController()
             contentArray.append(subVc.view)
             self.addChild(subVc)
@@ -67,10 +64,11 @@ extension BSHomeController {
             return
         }
         subVc.type = type
+        subVc.viewModel.type = type
         guard (subVc.dataArray?.count) == nil else {
             return
         }
-        subVc.viewModel.loadData(type: type)
+        subVc.viewModel.loadNewData()
     
     }
 }
