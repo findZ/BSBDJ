@@ -38,14 +38,39 @@ class BSMineController: BSBaseController {
         vm.delegate = self
         vm.didFinish = { (model : Any)  in
             self.userModel = model as? BSUserProfileModel
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
         vm.error = {(error: Error) in
             MBProgressHUD.hide(for: self.view, animated: true)
         }
         return vm
     }()
-    lazy var headerView: BSMineHeaderView = {
+    lazy var headerView: BSMineHeaderView = { [unowned self] in
         let hv = BSMineHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: Screen_width, height:300))
+        hv.bottomBarButtonDidlClick = { (button : UIButton) in
+            
+            switch button.tag {
+            case 1 :
+                
+                break
+            case 2 :
+                
+                break
+            case 3 ://关注
+                let personalAttentionVc = BSPersonalAttentionController()
+                personalAttentionVc.userId = self.userId
+                self.navigationController?.pushViewController(personalAttentionVc, animated: true)
+                
+                break
+            case 4 :
+                
+                break
+            default:
+                break
+            }
+            
+            
+        }
         return hv
     }()
     private lazy var tableView: UITableView = { [unowned self] in

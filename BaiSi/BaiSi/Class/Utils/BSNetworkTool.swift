@@ -21,10 +21,12 @@ struct BSError : Error {
     }
 }
 
+let _headers = ["uid":"23069386","appname":"bsbdjhd","openudid":"9a3246cd991fce4a8f047a6af57728f8265f263f", "asid": "1940339E-9537-4DF5-8BBC-4CD7BF2F9EB1"]
+
 class BSNetworkTool: NSObject {
 
     static func getWithUrl(urlString: String, parameter : Dictionary<String, Any>, success: @escaping successClosure, failure: @escaping failureClosure ){
-        Alamofire.request(urlString,method:.get,parameters: parameter).responseJSON { (response) in
+        Alamofire.request(urlString,method:.get,parameters: parameter,headers:_headers).responseJSON { (response) in
             if let data = response.data {
                 
                 var dict : Any

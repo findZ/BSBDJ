@@ -235,7 +235,7 @@ extension BSHomeSubCell {
     
     func setUpDataWithDataModel(model : BSHomeDataModel) {
         let iconUrl = URL.init(string: (model.u?.header!.last)!)
-        iconView.sd_setImage(with: iconUrl, placeholderImage: nil, options: SDWebImageOptions.retryFailed, completed: nil)
+        iconView.sd_setImage(with: iconUrl, placeholderImage: UIImage.init(named: "avatar_m_70_70x70_"), options: SDWebImageOptions.retryFailed, completed: nil)
         
         var imageUrl = URL.init(string: "")
         self.gifIcon.isHidden = true

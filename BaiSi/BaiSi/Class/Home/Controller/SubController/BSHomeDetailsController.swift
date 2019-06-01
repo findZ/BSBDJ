@@ -127,7 +127,7 @@ extension BSHomeDetailsController {
     
     func setupHeaderData(model : BSHomeDataModel)  {
         let iconUrl = URL.init(string: model.u!.header!.last!)
-        self.navigationBar.imageView.sd_setImage(with: iconUrl, completed: nil)
+        self.navigationBar.imageView.sd_setImage(with: iconUrl, placeholderImage: UIImage.init(named: "avatar_m_70_70x70_"))
         self.navigationBar.title = model.u?.name
         if model.u!.is_v! {
             self.navigationBar.vipView.isHidden = false

@@ -69,7 +69,7 @@ class BSHomeCommentsCell: UITableViewCell {
                 return
             }
             let url = URL.init(string: user.profile_image!)
-            self.iconView.sd_setImage(with: url, completed: nil)
+            self.iconView.sd_setImage(with: url, placeholderImage: UIImage.init(named: "avatar_m_70_70x70_"))
             self.nameLabel.text = user.username
             self.contentLabel.text = frameModel!.model!.content
             self.timeLabel.text = frameModel!.model!.ctime

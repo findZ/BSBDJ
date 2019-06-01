@@ -24,6 +24,8 @@ class BSBaseController: UIViewController {
         self.view.backgroundColor = UIColor.groupTableViewBackground
         self.setupNavigationBar()
         // Do any additional setup after loading the view.
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "capture_nav_back_normal")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal), style: UIBarButtonItem.Style.plain, target: self, action: #selector(leftButtonClick))
     }
     
 

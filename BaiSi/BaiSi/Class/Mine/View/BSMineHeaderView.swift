@@ -12,6 +12,10 @@ import SDWebImage
 
 class BSMineHeaderView: UIView {
 
+    
+    var bottomBarButtonDidlClick : ((UIButton) -> Void)?
+
+    
     private let margin : CGFloat = 10.0
     private let bottomHeight : CGFloat = 50
     
@@ -42,8 +46,9 @@ class BSMineHeaderView: UIView {
     }()
     
     lazy var sexIcon: UIImageView = {
-        let imgV = UIImageView.init(image: UIImage.init(named: "common-gif_31x31"))
-        imgV.isHidden = true
+        let imgV = UIImageView.init(image: UIImage.init(named: "sex_women"))
+//        imgV.isHidden = true
+//        imgV.backgroundColor = UIColor.randomColor()
         return imgV
     }()
     
@@ -54,6 +59,15 @@ class BSMineHeaderView: UIView {
         label.textAlignment = NSTextAlignment.left
         return label
     }()
+    
+    lazy var followButton: UIButton = { [unowned self] in
+        let btn = UIButton.init(frame: CGRect.init(x: Screen_width - 80 - margin , y: NAVIGATION_BAR_HEIGHT + 30, width: 80, height: 40))
+        btn.setTitle("关注", for: UIControl.State.normal)
+        btn.layer.cornerRadius = 20
+        btn.backgroundColor = ThemeColor
+        return btn
+    }()
+    
     
     lazy var beffectView: UIVisualEffectView = { [unowned self] in
         //毛玻璃
@@ -69,26 +83,26 @@ class BSMineHeaderView: UIView {
     }()
     lazy var likeButton: UIButton = { [unowned self] in
         let width = Screen_width/4
-        let btn = self.subButtonWithTitle(title: "获赞")
+        let btn = self.subButtonWithTitle(title: "获赞", tag:1)
         btn.frame = CGRect.init(x: 0, y: 0, width: width, height: bottomHeight)
         return btn
     }()
     lazy var fansButton: UIButton = { [unowned self] in
         let width = Screen_width/4
-        let btn = self.subButtonWithTitle(title: "粉丝")
+        let btn = self.subButtonWithTitle(title: "粉丝", tag:2)
         btn.frame = CGRect.init(x: width, y: 0, width: width, height: bottomHeight)
         return btn
     }()
-    lazy var followButton: UIButton = { [unowned self] in
+    lazy var followCountButton: UIButton = { [unowned self] in
         let width = Screen_width/4
-        let btn = self.subButtonWithTitle(title: "关注")
+        let btn = self.subButtonWithTitle(title: "关注", tag:3)
         btn.frame = CGRect.init(x: width*2, y: 0, width: width, height: bottomHeight)
 
         return btn
     }()
     lazy var levelButton: UIButton = { [unowned self] in
         let width = Screen_width/4
-        let btn = self.subButtonWithTitle(title: "等级")
+        let btn = self.subButtonWithTitle(title: "等级", tag:4)
         btn.frame = CGRect.init(x: width*3, y: 0, width: width, height: bottomHeight)
 
         return btn
@@ -105,8 +119,16 @@ class BSMineHeaderView: UIView {
             let bgUrl = URL.init(string: model!.profile_image_large!)
             backgroundView.sd_setImage(with: bgUrl, completed: nil)
             let iconUrl = URL.init(string: model!.profile_image!)
-            iconView.sd_setImage(with: iconUrl, completed: nil)
+            iconView.sd_setImage(with: iconUrl, placeholderImage: UIImage.init(named: "avatar_m_70_70x70_"))
             
+            let nameWidth = (model!.username?.boundingRect(with: CGSize.init(width: CGFloat(MAXFLOAT), height: 30), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17.0)], context: nil).size.width)!
+            self.nameLabel.frame = CGRect.init(x: margin, y: self.iconView.frame.maxY + margin, width: nameWidth, height: 30)
+            if model!.sex == "m" {
+                sexIcon.image = UIImage.init(named: "sex_men")
+            }else if model!.sex == "w"{
+                sexIcon.image = UIImage.init(named: "sex_women")
+            }
+            self.sexIcon.frame = CGRect.init(x:self.nameLabel.frame.maxX + margin, y: self.iconView.frame.maxY + margin + 5, width: 18, height: 18)
             nameLabel.text = model!.username
             signatureLabel.text = model!.introduction!.count > 0 ? model!.introduction : "这人很懒，什么都没写~"
             if model!.jie_v == "1" {
@@ -114,9 +136,17 @@ class BSMineHeaderView: UIView {
             }else{
                 self.vipView.isHidden = true
             }
+            if model!.relationship == "0" {
+                self.followButton.setTitle("关注", for: UIControl.State.normal)
+                self.followButton.backgroundColor = ThemeColor
+            }else if model!.relationship == "2"{
+                self.followButton.setTitle("已关注", for: UIControl.State.normal)
+                self.followButton.backgroundColor = UIColor.gray
+            }
+            
             self.setTextLabelData(text: model!.total_cmt_like_count!, btn: self.likeButton)
             self.setTextLabelData(text: model!.fans_count!, btn: self.fansButton)
-            self.setTextLabelData(text: model!.follow_count!, btn: self.followButton)
+            self.setTextLabelData(text: model!.follow_count!, btn: self.followCountButton)
             self.setTextLabelData(text: "LV\(model!.level!)", btn: self.levelButton)
 
         }
@@ -131,11 +161,13 @@ class BSMineHeaderView: UIView {
         self.addSubview(self.nameLabel)
         self.addSubview(self.sexIcon)
         self.addSubview(self.signatureLabel)
+        self.addSubview(self.followButton)
+
         
         self.addSubview(self.bottomBar)
         self.bottomBar.addSubview(self.likeButton)
         self.bottomBar.addSubview(self.fansButton)
-        self.bottomBar.addSubview(self.followButton)
+        self.bottomBar.addSubview(self.followCountButton)
         self.bottomBar.addSubview(self.levelButton)
         
         self.addSubview(self.bottomLine)
@@ -146,14 +178,15 @@ class BSMineHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func subButtonWithTitle(title: String) -> UIButton {
+    func subButtonWithTitle(title: String ,tag: Int) -> UIButton {
         let btn = UIButton.init()
+        btn.tag = tag
 //        btn.backgroundColor = UIColor.randomColor()
         btn.titleEdgeInsets = UIEdgeInsets.init(top: 30, left: 0, bottom: 8, right: 0)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 11)
         btn.setTitleColor(CommentColor, for: UIControl.State.normal)
         btn.setTitle(title, for: UIControl.State.normal)
-        
+        btn.addTarget(self, action: #selector(buttonClick(_:)), for: UIControl.Event.touchUpInside)
         let textLabel = UILabel.init(frame: CGRect.init(x: 0, y: 8, width: Screen_width/4, height: 20))
         textLabel.textAlignment = NSTextAlignment.center
         textLabel.tag = 19
@@ -169,5 +202,15 @@ class BSMineHeaderView: UIView {
         label.text = text
     }
     
+}
+
+extension BSMineHeaderView {
+    
+    @objc func buttonClick(_ button : UIButton){
+        
+        if self.bottomBarButtonDidlClick != nil {
+            self.bottomBarButtonDidlClick!(button)
+        }
+    }
 }
 

@@ -31,4 +31,49 @@ class BSBaseViewModel: NSObject {
             failure(error)
         }
     }
+    
+    
+    /// 关注博主
+    ///
+    /// - Parameters:
+    ///   - userId: 博主id
+    ///   - complete: 完成回调
+    func followUser(userId : String ,complete : @escaping ((_ isSucceed :Bool) -> Void)){
+        let url = "http://d.api.budejie.com/user/\(userId)/follow/"
+        self.loadData(url: url, parameter: Dictionary(), succeed: { (result: Dictionary<String, Any>) in
+            let code = result["code"] as! NSNumber
+            if code.intValue == 0 {
+                complete(true)
+                
+            }else{
+                complete(false)
+            }
+        }) { (error) in
+            complete(false)
+            
+        }
+        
+    }
+    
+    /// 取消关注博主
+    ///
+    /// - Parameters:
+    ///   - userId: 博主id
+    ///   - complete: 完成回调
+    func unFollowUser(userId : String ,complete : @escaping ((_ isSucceed :Bool) -> Void)){
+        let url = "http://d.api.budejie.com/user/\(userId)/unfollow/"
+        self.loadData(url: url, parameter: Dictionary(), succeed: { (result: Dictionary<String, Any>) in
+            let code = result["code"] as! NSNumber
+            if code.intValue == 0 {
+                complete(true)
+                
+            }else{
+                complete(false)
+            }
+        }) { (error) in
+            complete(false)
+            
+        }
+        
+    }
 }

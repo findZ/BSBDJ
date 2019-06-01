@@ -35,6 +35,10 @@
 		296CA7F3227D70D400AC7623 /* BSUserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296CA7F2227D70D400AC7623 /* BSUserProfileModel.swift */; };
 		296CA7F5227D722500AC7623 /* BSMineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296CA7F4227D722500AC7623 /* BSMineViewModel.swift */; };
 		296CA7F7227D7A3D00AC7623 /* BSMineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296CA7F6227D7A3D00AC7623 /* BSMineHeaderView.swift */; };
+		2984661C22A258DF00EF097E /* BSPersonalAttentionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2984661B22A258DF00EF097E /* BSPersonalAttentionController.swift */; };
+		2984662022A2595800EF097E /* BSPersonalAttentionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2984661F22A2595800EF097E /* BSPersonalAttentionViewModel.swift */; };
+		2984662222A25BA000EF097E /* BSPersonalAttentionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2984662122A25BA000EF097E /* BSPersonalAttentionModel.swift */; };
+		2984662522A2602C00EF097E /* BSPersonalAttentionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2984662422A2602C00EF097E /* BSPersonalAttentionCell.swift */; };
 		29948C3D2279A7C3000446D0 /* BSHomeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29948C3C2279A7C3000446D0 /* BSHomeDetailView.swift */; };
 		29948C3F2279AFAD000446D0 /* BSHomeDetailHeaderFrameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29948C3E2279AFAD000446D0 /* BSHomeDetailHeaderFrameModel.swift */; };
 		29948C442279E32F000446D0 /* BSHomeCommentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29948C432279E32F000446D0 /* BSHomeCommentsCell.swift */; };
@@ -92,6 +96,10 @@
 		296CA7F2227D70D400AC7623 /* BSUserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSUserProfileModel.swift; sourceTree = "<group>"; };
 		296CA7F4227D722500AC7623 /* BSMineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSMineViewModel.swift; sourceTree = "<group>"; };
 		296CA7F6227D7A3D00AC7623 /* BSMineHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSMineHeaderView.swift; sourceTree = "<group>"; };
+		2984661B22A258DF00EF097E /* BSPersonalAttentionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPersonalAttentionController.swift; sourceTree = "<group>"; };
+		2984661F22A2595800EF097E /* BSPersonalAttentionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPersonalAttentionViewModel.swift; sourceTree = "<group>"; };
+		2984662122A25BA000EF097E /* BSPersonalAttentionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPersonalAttentionModel.swift; sourceTree = "<group>"; };
+		2984662422A2602C00EF097E /* BSPersonalAttentionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPersonalAttentionCell.swift; sourceTree = "<group>"; };
 		29948C3C2279A7C3000446D0 /* BSHomeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeDetailView.swift; sourceTree = "<group>"; };
 		29948C3E2279AFAD000446D0 /* BSHomeDetailHeaderFrameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeDetailHeaderFrameModel.swift; sourceTree = "<group>"; };
 		29948C432279E32F000446D0 /* BSHomeCommentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSHomeCommentsCell.swift; sourceTree = "<group>"; };
@@ -249,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				296CA7F4227D722500AC7623 /* BSMineViewModel.swift */,
+				2984661F22A2595800EF097E /* BSPersonalAttentionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -256,6 +265,7 @@
 		296CA7F0227D708800AC7623 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2984662322A2600900EF097E /* Cell */,
 				296CA7F6227D7A3D00AC7623 /* BSMineHeaderView.swift */,
 			);
 			path = View;
@@ -265,8 +275,17 @@
 			isa = PBXGroup;
 			children = (
 				296CA7F2227D70D400AC7623 /* BSUserProfileModel.swift */,
+				2984662122A25BA000EF097E /* BSPersonalAttentionModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2984662322A2600900EF097E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2984662422A2602C00EF097E /* BSPersonalAttentionCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		29948C422279C8B4000446D0 /* FrameModel */ = {
@@ -452,6 +471,7 @@
 			isa = PBXGroup;
 			children = (
 				29F9A0E22253410300879E51 /* BSMineController.swift */,
+				2984661B22A258DF00EF097E /* BSPersonalAttentionController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -682,6 +702,7 @@
 				292F9C5C225CA3A900FAA800 /* BSHomeSubCell.swift in Sources */,
 				290824F3225F8530004EA940 /* ZHImageViewer.swift in Sources */,
 				290365DD22548B9C0087AE35 /* BSHomeSubController.swift in Sources */,
+				2984662022A2595800EF097E /* BSPersonalAttentionViewModel.swift in Sources */,
 				29F9A0D522533BE700879E51 /* BSTabBarController.swift in Sources */,
 				29948C56227AE039000446D0 /* BSHomeCommentModel.swift in Sources */,
 				29948C58227AE214000446D0 /* BSHomeCommentUserModel.swift in Sources */,
@@ -700,6 +721,7 @@
 				29F9A0ED2253564900879E51 /* BSPublicExtension.swift in Sources */,
 				290824F5225F8530004EA940 /* UIScrollView.swift in Sources */,
 				2918E9222277EE4600903984 /* BSNavigationController.swift in Sources */,
+				2984662222A25BA000EF097E /* BSPersonalAttentionModel.swift in Sources */,
 				29948C48227A9D0E000446D0 /* BSHomeDataModel.swift in Sources */,
 				296CA7F5227D722500AC7623 /* BSMineViewModel.swift in Sources */,
 				290365E32254A4440087AE35 /* BSNetworkTool.swift in Sources */,
@@ -716,9 +738,11 @@
 				290824F7225F8530004EA940 /* UIImageView.swift in Sources */,
 				29948C442279E32F000446D0 /* BSHomeCommentsCell.swift in Sources */,
 				29F9A0F32253580800879E51 /* BSMainTabBar.swift in Sources */,
+				2984662522A2602C00EF097E /* BSPersonalAttentionCell.swift in Sources */,
 				29F9A0F5225446AC00879E51 /* BSHomeTitleView.swift in Sources */,
 				29948C52227AD4D1000446D0 /* BSHomeGifModel.swift in Sources */,
 				290824F6225F8530004EA940 /* UIImage.swift in Sources */,
+				2984661C22A258DF00EF097E /* BSPersonalAttentionController.swift in Sources */,
 				290365E62254BC650087AE35 /* BSHomeViewModel.swift in Sources */,
 				29948C4E227AD311000446D0 /* BSHomeVideoOrAudioModel.swift in Sources */,
 				29F9A0EB225352DF00879E51 /* BSBaseController.swift in Sources */,

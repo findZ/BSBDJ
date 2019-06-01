@@ -26,6 +26,8 @@ class BSUserProfileModel: HandyJSON {
     var username : String?
     var trade_ruler : String?
     var is_vip : Bool?
+    
+    /// 关系：0：没有关注 2：关注
     var relationship : String?
     var room_name : String?
     var background_image : String?
