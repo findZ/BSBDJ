@@ -13,6 +13,8 @@ protocol BSHomeTitleViewDelegate : NSObjectProtocol{
 }
 
 class BSHomeTitleView: UIView {
+    let margin : CGFloat = 20.0
+    
 
     weak var delegate: BSHomeTitleViewDelegate?
     //标题数组
@@ -70,19 +72,15 @@ extension BSHomeTitleView {
     func setupSubView() {
         
         guard self.titles?.isEmpty == false else {return}//titles为空直接return
-        let count : CGFloat = CGFloat.init(self.titles!.count)
-        var btnW : CGFloat = 60
-        var contentWidth: CGFloat = btnW * count
-        if contentWidth < self.width(){
-            btnW = self.width()/count
-            contentWidth = btnW * count
-        }
-
+        var btnX = Double(self.margin)
         for (i, title) in (self.titles?.enumerated())! {
-            let btnX = btnW*CGFloat.init(i)
             
-            let label = UILabel.init(frame: CGRect.init(x: btnX, y: 0, width: btnW, height: 44))
+            let btnW = Double(title.boundingRect(with: CGSize.init(width: CGFloat(MAXFLOAT), height: 44), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.pingFangSCRegular(size: 16.0)], context: nil).size.width)
+            
+            let label = UILabel.init(frame: CGRect.init(x: btnX, y: 0.0, width: btnW, height: 44.0))
             label.tag = i
+            btnX += (btnW + Double(self.margin))
+            label.font = UIFont.pingFangSCRegular(size: 16.0)
             label.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer.init(target: self, action: #selector(labelClick))
             label.addGestureRecognizer(tap)
@@ -92,17 +90,16 @@ extension BSHomeTitleView {
             if i == selectIndex {
                 label.textColor = UIColor.black
                 self.selectLabel = label
+                self.slider.frame = CGRect.init(x: label.frame.origin.x, y: 40, width: label.frame.width, height: 3.5)
             }else{
                 label.textColor = UIColor.gray
             }
 
-            self.addSubview(label)
+            self.scrollView.addSubview(label)
             self.labelArray.append(label)
         }
-        self.scrollView.contentSize = CGSize.init(width: contentWidth, height: 0)
-        self.addSubview(self.slider)
-    
-        self.slider.center.x = self.selectLabel!.center.x
+        self.scrollView.contentSize = CGSize.init(width: btnX, height: 0)
+        self.scrollView.addSubview(self.slider)
     }
     
     @objc func labelClick(tap : UITapGestureRecognizer)  {
@@ -118,7 +115,22 @@ extension BSHomeTitleView {
         label.textColor = UIColor.black
         self.selectLabel = label
         UIView.animate(withDuration: 0.25) {
-            self.slider.center.x = label.center.x
+            self.slider.frame = CGRect.init(x: label.frame.origin.x, y: 40, width: label.frame.width, height: 3.5)
         }
+        var offX = 0.0
+        var maxX = label.frame.maxX + self.margin
+        
+        if maxX >= Screen_width {
+            
+            if label.tag < self.labelArray.count - 1{
+                maxX = self.labelArray[label.tag + 1].frame.maxX + self.margin
+            }
+            offX = Double(maxX - Screen_width)
+            
+        }else if maxX < Screen_width {
+            offX = 0.0
+        }
+        self.scrollView.setContentOffset(CGPoint.init(x: offX, y: 0.0), animated: true)
+        
     }
 }

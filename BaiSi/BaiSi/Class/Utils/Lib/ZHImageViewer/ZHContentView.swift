@@ -98,7 +98,7 @@ extension ZHContentView : UICollectionViewDataSource, UICollectionViewDelegate {
             let imageCell = cell as! ZHImageCell
             imageCell.delegate = self
             let imageUrl = self.dataArray?[indexPath.row] as URL?
-            
+            imageCell.image = self.fromView?.image
             imageCell.imageView.sd_setImage(with: imageUrl, placeholderImage: self.fromView?.image, options: SDWebImageOptions.delayPlaceholder) { (image, error, CacheType, url) in
                 imageCell.image = image
             }

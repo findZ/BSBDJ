@@ -46,7 +46,7 @@ class BSMineHeaderView: UIView {
     }()
     
     lazy var sexIcon: UIImageView = {
-        let imgV = UIImageView.init(image: UIImage.init(named: "sex_women"))
+        let imgV = UIImageView.init()
 //        imgV.isHidden = true
 //        imgV.backgroundColor = UIColor.randomColor()
         return imgV
@@ -65,6 +65,7 @@ class BSMineHeaderView: UIView {
         btn.setTitle("关注", for: UIControl.State.normal)
         btn.layer.cornerRadius = 20
         btn.backgroundColor = ThemeColor
+        btn.isHidden = true
         return btn
     }()
     
@@ -116,6 +117,7 @@ class BSMineHeaderView: UIView {
     
     var model : BSUserProfileModel? {
         didSet {
+            
             let bgUrl = URL.init(string: model!.profile_image_large!)
             backgroundView.sd_setImage(with: bgUrl, completed: nil)
             let iconUrl = URL.init(string: model!.profile_image!)
@@ -136,6 +138,12 @@ class BSMineHeaderView: UIView {
             }else{
                 self.vipView.isHidden = true
             }
+            if model!.id == "23069386" {
+                self.followButton.isHidden = true
+            }else{
+                self.followButton.isHidden = false
+            }
+            
             if model!.relationship == "0" {
                 self.followButton.setTitle("关注", for: UIControl.State.normal)
                 self.followButton.backgroundColor = ThemeColor
